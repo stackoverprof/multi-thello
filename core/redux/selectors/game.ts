@@ -25,18 +25,14 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTurn(nextId);
 	};
 
-	const handleSelect = (x, y) => {
-		console.log(x, y);
-
-		const prev = [...state.board];
-		const next = prev.map((cols, i) =>
+	const handleSelect = (x: number, y: number) => {
+		const updated = state.board.map((cols, i) =>
 			cols.map((val, j) => {
-				if (x === i && y === j) {
-					return state.turn;
-				} else return val;
+				if (x === i && y === j) return state.turn;
+				else return val;
 			})
 		);
-		dispatcher.setBoard(next);
+		dispatcher.setBoard(updated);
 		nextTurn();
 	};
 

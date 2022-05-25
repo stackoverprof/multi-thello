@@ -25,38 +25,28 @@ const TileBoard = ({ value, x, y }: Props) => {
 			.filter(({ x: _x, y: _y }) => _x !== x || _y !== y);
 	};
 
-	const anyOccupiedNeighbors = () => {
-		const neighbors = getNeighbors();
-		console.log(x, y, neighbors);
-
-		const occupiedNeighbors = neighbors.filter(({ x, y }) => board[x][y] !== 0);
-
+	const pickable = (() => {
+		const occupiedNeighbors = getNeighbors().filter(({ x, y }) => board[x][y] !== 0).length > 0;
 		const boardEmpty = board.filter((cols) => cols.filter((val) => val).length).length === 0;
-		console.log(boardEmpty);
-
-		return !!occupiedNeighbors.length || boardEmpty;
-	};
-
-	const pickable = anyOccupiedNeighbors();
+		return !value && (occupiedNeighbors || boardEmpty);
+	})();
 
 	return (
 		<button
-			disabled={!!value || !pickable}
+			disabled={!pickable}
+			onClick={() => handleSelect(x, y)}
 			className={[
 				'flex-cc m-1 w-12 h-12 bg-gray-100',
-				!!value || !pickable ? 'cursor-not-allowed' : 'cursor-pointer',
+				pickable ? 'cursor-pointer' : 'cursor-not-allowed',
 			].join(' ')}
-			onClick={() => handleSelect(x, y)}
 			key={`${x},${y}`}
 		>
-			{!value && pickable ? (
+			{pickable && (
 				<p className="text-gray-300">
 					{x}, {y}
 				</p>
-			) : (
-				<></>
 			)}
-			{!!value && (
+			{value && (
 				<div
 					className="w-12 h-12 rounded-full"
 					style={{
