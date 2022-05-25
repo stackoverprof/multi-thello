@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
+import TileBoard from './TileBoard';
 import { useGame } from '@core/redux/selectors/game';
-
-const getColor = (seed: number) => {
-	return ['#ff8a80', '#80d8ff', '#ffd740', '#69f0ae', '#b388ff', '#795548'][seed - 1];
-};
 
 const Game = () => {
 	const SIZE = 8;
 	const PLAYER = 4;
 
-	const { board, initiateBoard, initiatePlayer, handleSelect } = useGame();
+	const { board, initiateBoard, initiatePlayer } = useGame();
 
 	useEffect(() => {
 		initiateBoard(SIZE);
@@ -19,29 +16,10 @@ const Game = () => {
 	return (
 		<div className="flex-cc">
 			<div className="flex-cc">
-				{board.map((column, i) => (
-					<div className="flex-cc col" key={i}>
-						{column.map((value, j) => (
-							<button
-								disabled={!!value}
-								className={[
-									'flex-cc m-1 w-12 h-12 ',
-									value ? 'cursor-not-allowed' : 'cursor-pointer',
-								].join(' ')}
-								style={{
-									backgroundColor: value ? getColor(value) : 'rgb(243 244 246)',
-								}}
-								onClick={() => handleSelect(i, j)}
-								key={`${i},${j}`}
-							>
-								{value ? (
-									<></>
-								) : (
-									<p className="text-gray-300">
-										{i}, {j}
-									</p>
-								)}
-							</button>
+				{board.map((column, x) => (
+					<div className="flex-cc col" key={x}>
+						{column.map((value, y) => (
+							<TileBoard value={value} x={x} y={y} key={`${x}-${y}`} />
 						))}
 					</div>
 				))}
