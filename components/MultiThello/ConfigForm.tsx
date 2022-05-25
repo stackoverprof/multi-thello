@@ -47,4 +47,3 @@ const ConfigForm = () => {
 };
 
 export default ConfigForm;
-

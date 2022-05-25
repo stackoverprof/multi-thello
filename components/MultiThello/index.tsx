@@ -29,4 +29,3 @@ const MultiThello = () => {
 };
 
 export default MultiThello;
-

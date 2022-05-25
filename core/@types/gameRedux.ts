@@ -15,4 +15,3 @@ export interface UseGameType extends GameStateType, GameActionsType {
 	initiatePlayer(playerSize: number): void;
 	handleSelect(x: number, y: number): void;
 }
-

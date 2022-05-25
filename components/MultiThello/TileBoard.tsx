@@ -59,4 +59,3 @@ const TileBoard = ({ value, x, y }: Props) => {
 };
 
 export default TileBoard;
-
