@@ -5,17 +5,17 @@ import MainLayout from '@components/_layouts/MainLayout';
 const Index = (): JSX.Element => {
 	return (
 		<MainLayout title="Home" className="flex-sc col">
-			<h1 className="z-10 mt-48 mb-4 text-4xl font-bold text-center">Next (Basic) Starter</h1>
+			<h1 className="z-10 mt-48 mb-4 text-4xl font-bold text-center">MultiThello</h1>
 			<p className="z-10 mb-8 max-w-sm text-center">
-				The template for a quick and intuitive workflow with Next.js and tailwindcss
+				Play othello with 2 player <span className="text-accent">or more!</span>
 			</p>
 
 			<div className="flex-cc z-10 gap-4">
-				<Link href="/about" className="px-4 py-2 text-white bg-accent hover:bg-opacity-80">
-					ABOUT
+				<Link href="/play" className="px-4 py-2 text-white bg-accent hover:bg-opacity-80">
+					PLAY
 				</Link>
-				<Link href="/form" className="px-4 py-2 text-white bg-black hover:bg-opacity-80">
-					FORM
+				<Link href="#" className="px-4 py-2 text-white bg-black hover:bg-opacity-80">
+					SHARE
 				</Link>
 			</div>
 

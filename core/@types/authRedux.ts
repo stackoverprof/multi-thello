@@ -9,3 +9,4 @@ export interface AuthActionsType {
 }
 
 export interface UseAuthType extends AuthStateType, AuthActionsType {}
+
