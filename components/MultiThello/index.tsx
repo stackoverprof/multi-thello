@@ -3,14 +3,10 @@ import TileBoard from './TileBoard';
 import { useGame } from '@core/redux/selectors/game';
 
 const MultiThello = () => {
-	const SIZE = 8;
-	const PLAYER = 4;
-
-	const { tileStatus, board, initiateBoard, initiatePlayer } = useGame();
+	const { tileStatus, board, start } = useGame();
 
 	useEffect(() => {
-		initiateBoard(SIZE);
-		initiatePlayer(PLAYER);
+		start({ player: 4, board: 8 });
 	}, []);
 
 	return (

@@ -24,6 +24,7 @@ const ReduxSlice = createSlice({
 		setTileStatus: (state, action) => {
 			state.tileStatus = action.payload;
 		},
+		reset: () => initialState,
 	},
 });
 

@@ -18,6 +18,7 @@ const ReduxSlice = createSlice({
 			state.access_token = '';
 			state.authenticated = false;
 		},
+		reset: () => initialState,
 	},
 });
 

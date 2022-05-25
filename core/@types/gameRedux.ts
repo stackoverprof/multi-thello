@@ -10,11 +10,11 @@ export interface GameActionsType {
 	setPlayers(val: any): void;
 	setTurn(val: number): void;
 	setTileStatus(val: boolean): void;
+	reset(): void;
 }
 
 export interface UseGameType extends GameStateType, GameActionsType {
-	initiateBoard(size: number): void;
-	initiatePlayer(playerSize: number): void;
+	start(config: { player: number; board: number }): void;
 	handleSelect(selected: ChipDataType): void;
 }
 

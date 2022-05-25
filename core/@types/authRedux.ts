@@ -6,6 +6,7 @@ export interface AuthStateType {
 export interface AuthActionsType {
 	setToken(val: any): void;
 	removeToken(val: any): void;
+	reset(): void;
 }
 
 export interface UseAuthType extends AuthStateType, AuthActionsType {}

@@ -8,9 +8,26 @@ export const useGame = (): UseGameType => {
 	const state = useSelector((state: RootState) => state.game);
 	const dispatcher = useAutoDispatcher(actions);
 
+	const start = ({ player = 4, board = 8 }) => {
+		dispatcher.reset();
+		initiatePlayer(player);
+		initiateBoard(board);
+	};
+
+	const initiatePlayer = (playerSize) => {
+		const ids = Array(playerSize)
+			.fill(null)
+			.map((_, i) => i + 1);
+		dispatcher.setPlayers(ids);
+	};
+
 	const initiateBoard = (size) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
 		dispatcher.setBoard(initialBoard);
+		initiateTiles(size);
+	};
+
+	const initiateTiles = (size) => {
 		const filterByNoEdge = (tiles) =>
 			tiles.map((cols, x) =>
 				cols.map((_, y) => {
@@ -21,22 +38,8 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(initialTiles);
 	};
 
-	const initiatePlayer = (playerSize) => {
-		const ids = Array(playerSize)
-			.fill(null)
-			.map((_, i) => i + 1);
-		dispatcher.setPlayers(ids);
-	};
-
-	const nextTurn = () => {
-		const currentIndex = state.players.findIndex((x) => x === state.turn);
-		const nextIndex = currentIndex + 1 === state.players.length ? 0 : currentIndex + 1;
-		const nextId = state.players[nextIndex];
-		return nextId;
-	};
-
 	const handleSelect = (selected: ChipDataType) => {
-		const gained = [...flipChips(selected, state.turn, state.board), selected];
+		const gained = [...getFlippingChips(selected, state.turn, state.board), selected];
 		const updated = state.board.map((cols, i) =>
 			cols.map((val, j) => {
 				if (gained.find(({ x, y }) => x === i && y === j)) return state.turn;
@@ -44,12 +47,18 @@ export const useGame = (): UseGameType => {
 			})
 		);
 
-		dispatcher.setBoard(updated);
 		updateTileStatus(updated);
-		dispatcher.setTurn(nextTurn());
+		dispatcher.setBoard(updated);
+		dispatcher.setTurn(getNextPlayer());
 	};
 
-	const flipChips = (selected: ChipDataType, turn: number, board: number[][]) => {
+	const getNextPlayer = () => {
+		const currentIndex = state.players.findIndex((x) => x === state.turn);
+		const nextIndex = currentIndex + 1 === state.players.length ? 0 : currentIndex + 1;
+		return state.players[nextIndex];
+	};
+
+	const getFlippingChips = (selected: ChipDataType, turn: number, board: number[][]) => {
 		const enemyNeighbors = (() => {
 			const xNeighbors = [selected.x - 1, selected.x, selected.x + 1];
 			const yNeighbors = [selected.y - 1, selected.y, selected.y + 1];
@@ -64,12 +73,12 @@ export const useGame = (): UseGameType => {
 				.filter(({ value }) => value !== turn);
 		})();
 
-		const tobeFlippedCombined = enemyNeighbors
+		const flippingChipsCombined = enemyNeighbors
 			.map((neighbor: ChipDataType) => {
-				const tobeFlipped = [];
+				const flippingChips = [];
 
 				const checkNext = (current: ChipDataType) => {
-					tobeFlipped.push(current);
+					flippingChips.push(current);
 
 					const getNextCoord = (a: number, b: number) => {
 						const subs = a - b;
@@ -97,12 +106,12 @@ export const useGame = (): UseGameType => {
 				};
 
 				const isFlipping = checkNext(neighbor);
-				if (isFlipping) return tobeFlipped;
+				if (isFlipping) return flippingChips;
 				else return [];
 			})
 			.flat();
 
-		return tobeFlippedCombined;
+		return flippingChipsCombined;
 	};
 
 	const updateTileStatus = (board) => {
@@ -143,7 +152,7 @@ export const useGame = (): UseGameType => {
 				cols.map((val, y) => {
 					if (!val) return false;
 					const checkFlippingPossibility = (selected) => {
-						const flippable = flipChips(selected, nextTurn(), board);
+						const flippable = getFlippingChips(selected, getNextPlayer(), board);
 						return flippable.length > 0;
 					};
 					const flippingPossibility = checkFlippingPossibility({ x, y });
@@ -155,16 +164,15 @@ export const useGame = (): UseGameType => {
 		const step2 = filterByNeighborhood(step1);
 		const step3 = filterByFlippingPossibility(step2);
 		const stucked = step3.flat().filter((val) => val).length === 0;
+		const result = stucked ? step2 : step3;
 
-		const updated = stucked ? step2 : step3;
-		dispatcher.setTileStatus(updated);
+		dispatcher.setTileStatus(result);
 	};
 
 	return {
 		...state,
 		...dispatcher,
-		initiateBoard,
-		initiatePlayer,
+		start,
 		handleSelect,
 	};
 };

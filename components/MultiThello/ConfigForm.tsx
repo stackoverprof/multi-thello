@@ -4,15 +4,16 @@ import { useGame } from '@core/redux/selectors/game';
 
 const ConfigForm = () => {
 	const { form, mutateForm } = useForm({
-		size: '8',
-		playerSize: '4',
+		player: '4',
+		board: '8',
 	});
-	const { setTurn, initiateBoard, initiatePlayer } = useGame();
+	const { start } = useGame();
 
 	const reInitiate = () => {
-		initiateBoard(parseInt(form.size));
-		initiatePlayer(parseInt(form.playerSize));
-		setTurn(1);
+		start({
+			player: parseInt(form.player),
+			board: parseInt(form.board),
+		});
 	};
 
 	return (
@@ -21,9 +22,9 @@ const ConfigForm = () => {
 				<label htmlFor="size">Board size</label>
 				<input
 					type="text"
-					value={form.size}
+					value={form.board}
 					onChange={mutateForm}
-					name="size"
+					name="board"
 					className="border"
 					id="size"
 				/>
@@ -32,9 +33,9 @@ const ConfigForm = () => {
 				<label htmlFor="size">How many players</label>
 				<input
 					type="text"
-					value={form.playerSize}
+					value={form.player}
 					onChange={mutateForm}
-					name="playerSize"
+					name="player"
 					className="border"
 					id="size"
 					placeholder=""
