@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import TileBoard from './TileBoard';
 import { useGame } from '@core/redux/selectors/game';
 
-const Game = () => {
+const MultiThello = () => {
 	const SIZE = 8;
 	const PLAYER = 4;
 
@@ -28,5 +28,5 @@ const Game = () => {
 	);
 };
 
-export default Game;
+export default MultiThello;
 
