@@ -7,7 +7,7 @@ const Index = (): JSX.Element => {
 		<MainLayout title="Home" className="flex-sc col">
 			<h1 className="z-10 mt-48 mb-4 text-4xl font-bold text-center">MultiThello</h1>
 			<p className="z-10 mb-8 max-w-sm text-center">
-				Play othello with 2 player <span className="text-accent">or more!</span>
+				Play othello with 3 player <span className="text-accent">or more!</span>
 			</p>
 
 			<div className="flex-cc z-10 gap-4">
