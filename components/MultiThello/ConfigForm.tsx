@@ -31,7 +31,7 @@ const ConfigForm = () => {
 				/>
 			</div>
 			<div className="flex-ss col mx-2">
-				<label htmlFor="size">Player size (3 - 8)</label>
+				<label htmlFor="size">Player size (3 - ∞)</label>
 				<input
 					type="text"
 					value={form.player}
