@@ -31,7 +31,7 @@ const TileBoard = ({ value, x, y }: Props) => {
 	return (
 		<button
 			disabled={!pickable}
-			onClick={() => handleSelect(x, y)}
+			onClick={() => handleSelect({ x, y })}
 			className={[
 				'flex-cc m-1 w-12 h-12 bg-gray-100',
 				pickable ? 'cursor-pointer' : 'cursor-not-allowed',

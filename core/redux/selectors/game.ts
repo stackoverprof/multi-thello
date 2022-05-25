@@ -1,7 +1,7 @@
 import { actions } from '../reducers/game';
+import { ChipDataType, UseGameType } from '@core/@types/gameRedux';
 import { RootState } from '../store';
 import { useAutoDispatcher } from '../root';
-import { UseGameType } from '@core/@types/gameRedux';
 import { useSelector } from 'react-redux';
 
 export const useGame = (): UseGameType => {
@@ -27,11 +27,11 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTurn(nextId);
 	};
 
-	const handleSelect = (x: number, y: number) => {
-		const flipped = flipChips(x, y);
+	const handleSelect = (selected: ChipDataType) => {
+		const flipped = flipChips(selected);
 		const updated = flipped.map((cols, i) =>
 			cols.map((val, j) => {
-				if (x === i && y === j) return state.turn;
+				if (selected.x === i && selected.y === j) return state.turn;
 				else return val;
 			})
 		);
@@ -40,30 +40,28 @@ export const useGame = (): UseGameType => {
 		nextTurn();
 	};
 
-	const flipChips = (x: number, y: number) => {
-		const getNeighbors = () => {
-			const xNeighbors = [x - 1, x, x + 1];
-			const yNeighbors = [y - 1, y, y + 1];
-			const neighbors = xNeighbors.map((xn) => yNeighbors.map((yn) => ({ x: xn, y: yn })));
+	const flipChips = (selected: ChipDataType) => {
+		const enemyNeighbors = (() => {
+			const xNeighbors = [selected.x - 1, selected.x, selected.x + 1];
+			const yNeighbors = [selected.y - 1, selected.y, selected.y + 1];
+			const neighbors = xNeighbors.map((x) => yNeighbors.map((y) => ({ x, y })));
 			return neighbors
 				.flat()
 				.filter(({ x, y }) => x >= 0 && y >= 0)
 				.filter(({ x, y }) => x < state.board.length && y < state.board.length)
-				.filter(({ x: _x, y: _y }) => _x !== x || _y !== y);
-		};
-
-		const enemyNeighbors = getNeighbors()
-			.filter(({ x, y }) => state.board[x][y] !== 0)
-			.map(({ x, y }) => ({ x, y, value: state.board[x][y] }))
-			.filter(({ value }) => value !== state.turn);
+				.filter(({ x: _x, y: _y }) => _x !== selected.x || _y !== selected.y)
+				.filter(({ x, y }) => state.board[x][y] !== 0)
+				.map(({ x, y }) => ({ x, y, value: state.board[x][y] }))
+				.filter(({ value }) => value !== state.turn);
+		})();
 
 		const tobeFlippedCombined = enemyNeighbors
-			.map((neighbor) => {
-				const current = { x, y };
-
+			.map((neighbor: ChipDataType) => {
 				const tobeFlipped = [];
 
-				const checkNext = (x: number, y: number) => {
+				const checkNext = (current: ChipDataType) => {
+					tobeFlipped.push(current);
+
 					const getNextCoord = (a: number, b: number) => {
 						const subs = a - b;
 						if (subs > 0) return b - 1;
@@ -71,54 +69,41 @@ export const useGame = (): UseGameType => {
 						else return b;
 					};
 
-					const xnext = getNextCoord(current.x, x);
-					const ynext = getNextCoord(current.y, y);
+					const xNext = getNextCoord(selected.x, current.x);
+					const yNext = getNextCoord(selected.y, current.y);
 
 					const next = {
-						x: xnext,
-						y: ynext,
-						value: state.board[xnext][ynext],
+						x: xNext,
+						y: yNext,
+						value: state.board[xNext][yNext],
 					};
 
-					if (
+					const isOffGrid =
 						next.x < 0 ||
 						next.y < 0 ||
 						next.x >= state.board.length ||
-						next.y >= state.board.length
-					) {
-						return false;
-					} else if (next.value === 0) {
-						return false;
-					} else if (next.value === state.turn) {
-						console.log('iya sama');
-						return true;
-					} else {
-						tobeFlipped.push(next);
-						console.log('checking', next.x, next.y, next.value);
-						return checkNext(next.x, next.y);
-					}
+						next.y >= state.board.length;
+
+					if (isOffGrid) return false;
+					else if (next.value === 0) return false;
+					else if (next.value === state.turn) return true;
+					else return checkNext(next);
 				};
 
-				tobeFlipped.push(neighbor);
-
-				console.log('checking', neighbor.x, neighbor.y, neighbor.value);
-				const isFlipping = checkNext(neighbor.x, neighbor.y);
-
-				console.log(isFlipping);
-				if (isFlipping) {
-					return tobeFlipped;
-				} else return [];
+				const isFlipping = checkNext(neighbor);
+				if (isFlipping) return tobeFlipped;
+				else return [];
 			})
 			.flat();
 
-		const flipResult = state.board.map((cols, x) =>
-			cols.map((val, y) => {
-				if (tobeFlippedCombined.find((coor) => coor.x === x && coor.y === y))
-					return state.turn;
+		const updated = state.board.map((cols, i) =>
+			cols.map((val, j) => {
+				if (tobeFlippedCombined.find(({ x, y }) => x === i && y === j)) return state.turn;
 				else return val;
 			})
 		);
-		return flipResult;
+
+		return updated;
 	};
 
 	return {

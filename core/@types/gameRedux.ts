@@ -13,5 +13,7 @@ export interface GameActionsType {
 export interface UseGameType extends GameStateType, GameActionsType {
 	initiateBoard(size: number): void;
 	initiatePlayer(playerSize: number): void;
-	handleSelect(x: number, y: number): void;
+	handleSelect(picked: ChipDataType): void;
 }
+
+export type ChipDataType = { x: number; y: number; value?: number };
