@@ -6,7 +6,7 @@ const MultiThello = () => {
 	const SIZE = 8;
 	const PLAYER = 4;
 
-	const { board, initiateBoard, initiatePlayer } = useGame();
+	const { tileStatus, board, initiateBoard, initiatePlayer } = useGame();
 
 	useEffect(() => {
 		initiateBoard(SIZE);
@@ -16,10 +16,16 @@ const MultiThello = () => {
 	return (
 		<div className="flex-cc">
 			<div className="flex-cc">
-				{board.map((column, x) => (
+				{tileStatus.map((column, x) => (
 					<div className="flex-cc col" key={x}>
-						{column.map((value, y) => (
-							<TileBoard value={value} x={x} y={y} key={`${x}-${y}`} />
+						{column.map((abled, y) => (
+							<TileBoard
+								disabled={!abled}
+								value={board[x][y]}
+								x={x}
+								y={y}
+								key={`${x}-${y}`}
+							/>
 						))}
 					</div>
 				))}

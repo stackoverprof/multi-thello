@@ -5,6 +5,7 @@ const initialState: GameStateType = {
 	board: [],
 	turn: 1,
 	players: [],
+	tileStatus: [],
 };
 
 const ReduxSlice = createSlice({
@@ -19,6 +20,9 @@ const ReduxSlice = createSlice({
 		},
 		setTurn: (state, action) => {
 			state.turn = action.payload;
+		},
+		setTileStatus: (state, action) => {
+			state.tileStatus = action.payload;
 		},
 	},
 });
