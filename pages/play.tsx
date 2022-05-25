@@ -6,7 +6,7 @@ import { useGame } from '@core/redux/selectors/game';
 
 const Play = () => {
 	const { turn } = useGame();
-	const { form, mutateForm, resetForm } = useForm({
+	const { form, mutateForm } = useForm({
 		size: '8',
 		playerSize: '4',
 	});
@@ -15,7 +15,6 @@ const Play = () => {
 	const reInitiate = () => {
 		initiateBoard(parseInt(form.size));
 		initiatePlayer(parseInt(form.playerSize));
-		resetForm();
 	};
 
 	return (

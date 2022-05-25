@@ -43,12 +43,9 @@ const TileBoard = ({ value, x, y }: Props) => {
 		<button
 			disabled={!!value || !pickable}
 			className={[
-				'flex-cc m-1 w-12 h-12 ',
+				'flex-cc m-1 w-12 h-12 bg-gray-100',
 				!!value || !pickable ? 'cursor-not-allowed' : 'cursor-pointer',
 			].join(' ')}
-			style={{
-				backgroundColor: value ? getColor(value) : 'rgb(243 244 246)',
-			}}
 			onClick={() => handleSelect(x, y)}
 			key={`${x},${y}`}
 		>
@@ -58,6 +55,14 @@ const TileBoard = ({ value, x, y }: Props) => {
 				</p>
 			) : (
 				<></>
+			)}
+			{!!value && (
+				<div
+					className="w-12 h-12 rounded-full"
+					style={{
+						backgroundColor: getColor(value),
+					}}
+				></div>
 			)}
 		</button>
 	);
