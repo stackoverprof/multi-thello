@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { getColor } from 'color-seed';
 import { useGame } from '@core/redux/selectors/game';
+
+const getColor = (seed: number) => {
+	return ['#ff8a80', '#80d8ff', '#ffd740', '#69f0ae', '#b388ff', '#795548'][seed - 1];
+};
 
 const Game = () => {
 	const SIZE = 8;
@@ -31,9 +34,7 @@ const Game = () => {
 								value ? 'cursor-not-allowed' : 'cursor-pointer',
 							].join(' ')}
 							style={{
-								backgroundColor: value
-									? getColor(value * value)
-									: 'rgb(243 244 246)',
+								backgroundColor: value ? getColor(value) : 'rgb(243 244 246)',
 							}}
 							onClick={() => handleSelect(i, j)}
 							key={`${i},${j}`}
