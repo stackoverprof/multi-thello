@@ -36,7 +36,7 @@ const TileBoard = ({ value, x, y }: Props) => {
 				'flex-cc m-1 w-12 h-12 bg-gray-100',
 				pickable ? 'cursor-pointer' : 'cursor-not-allowed',
 			].join(' ')}
-			key={`${x},${y}`}
+			key={`${x}-${y}`}
 		>
 			{pickable && (
 				<p className="text-gray-300">
