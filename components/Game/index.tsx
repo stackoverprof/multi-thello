@@ -18,8 +18,8 @@ const Game = () => {
 			<div
 				style={{
 					display: 'grid',
-					gridTemplateRows: `repeat(${SIZE}, minmax(0, 1fr))`,
-					gridTemplateColumns: `repeat(${SIZE}, minmax(0, 1fr))`,
+					gridTemplateRows: `repeat(${board.length}, minmax(0, 1fr))`,
+					gridTemplateColumns: `repeat(${board.length}, minmax(0, 1fr))`,
 				}}
 			>
 				{board.map((column, i) =>
