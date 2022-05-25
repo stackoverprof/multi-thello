@@ -8,6 +8,7 @@ export const useGame = (): UseGameType => {
 	const state = useSelector((state: RootState) => state.game);
 	const dispatcher = useAutoDispatcher(actions);
 
+	// GAME INITIATION
 	const start = ({ player = 4, board = 8 }) => {
 		dispatcher.reset();
 		initiatePlayer(player);
@@ -38,6 +39,7 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(initialTiles);
 	};
 
+	// GAME PLAY FUNCTIONS
 	const handleSelect = (selected: ChipDataType) => {
 		const gained = [...getFlippingChips(selected, state.turn, state.board), selected];
 		const updated = state.board.map((cols, i) =>
@@ -52,6 +54,7 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTurn(getNextPlayer());
 	};
 
+	// UPDATING FOR NEXT TURN
 	const getNextPlayer = () => {
 		const currentIndex = state.players.findIndex((x) => x === state.turn);
 		const nextIndex = currentIndex + 1 === state.players.length ? 0 : currentIndex + 1;

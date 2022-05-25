@@ -7,6 +7,7 @@ const ConfigForm = () => {
 		player: '4',
 		board: '8',
 	});
+
 	const { start } = useGame();
 
 	const reInitiate = () => {
