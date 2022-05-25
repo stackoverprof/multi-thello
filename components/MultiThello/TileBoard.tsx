@@ -46,7 +46,7 @@ const TileBoard = ({ value, x, y }: Props) => {
 					{x}, {y}
 				</p>
 			)}
-			{value && (
+			{Boolean(value) && (
 				<div
 					className="w-12 h-12 rounded-full"
 					style={{
