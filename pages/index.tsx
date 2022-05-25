@@ -29,7 +29,7 @@ const Index = (): JSX.Element => {
 				<p className="flex-cc gap-1 text-lg">
 					See the{' '}
 					<Link
-						href="https://github.com/stackoverprof/next-starter"
+						href="https://github.com/stackoverprof/multi-thello"
 						target="_blank"
 						className="font-bold underline"
 					>
