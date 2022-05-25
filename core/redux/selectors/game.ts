@@ -69,23 +69,21 @@ export const useGame = (): UseGameType => {
 						else return b;
 					};
 
-					const xNext = getNextCoord(selected.x, current.x);
-					const yNext = getNextCoord(selected.y, current.y);
-
-					const next = {
-						x: xNext,
-						y: yNext,
-						value: state.board[xNext][yNext],
-					};
+					const xn = getNextCoord(selected.x, current.x);
+					const yn = getNextCoord(selected.y, current.y);
 
 					const isOffGrid =
-						next.x < 0 ||
-						next.y < 0 ||
-						next.x >= state.board.length ||
-						next.y >= state.board.length;
+						xn < 0 || yn < 0 || xn >= state.board.length || yn >= state.board.length;
 
 					if (isOffGrid) return false;
-					else if (next.value === 0) return false;
+
+					const next = {
+						x: xn,
+						y: yn,
+						value: state.board[xn][yn],
+					};
+
+					if (next.value === 0) return false;
 					else if (next.value === state.turn) return true;
 					else return checkNext(next);
 				};
