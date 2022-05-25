@@ -1,4 +1,5 @@
 import React from 'react';
+import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
 interface Props {
@@ -6,10 +7,6 @@ interface Props {
 	x: number;
 	y: number;
 }
-
-const getColor = (seed: number) => {
-	return ['#ff8a80', '#80d8ff', '#ffd740', '#69f0ae', '#b388ff', '#795548'][seed - 1];
-};
 
 const TileBoard = ({ value, x, y }: Props) => {
 	const { board, handleSelect } = useGame();
@@ -49,9 +46,7 @@ const TileBoard = ({ value, x, y }: Props) => {
 			{Boolean(value) && (
 				<div
 					className="w-12 h-12 rounded-full"
-					style={{
-						backgroundColor: getColor(value),
-					}}
+					style={{ backgroundColor: getColor(value) }}
 				></div>
 			)}
 		</button>

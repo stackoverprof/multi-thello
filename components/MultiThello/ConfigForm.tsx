@@ -7,11 +7,12 @@ const ConfigForm = () => {
 		size: '8',
 		playerSize: '4',
 	});
-	const { initiateBoard, initiatePlayer } = useGame();
+	const { setTurn, initiateBoard, initiatePlayer } = useGame();
 
 	const reInitiate = () => {
 		initiateBoard(parseInt(form.size));
 		initiatePlayer(parseInt(form.playerSize));
+		setTurn(1);
 	};
 
 	return (
