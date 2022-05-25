@@ -11,7 +11,13 @@ export const useGame = (): UseGameType => {
 	const initiateBoard = (size) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
 		dispatcher.setBoard(initialBoard);
-		const initialTiles = Array(size).fill(Array(size).fill(true));
+		const filterByNoEdge = (tiles) =>
+			tiles.map((cols, x) =>
+				cols.map((_, y) => {
+					return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
+				})
+			);
+		const initialTiles = filterByNoEdge(Array(size).fill(Array(size).fill(true)));
 		dispatcher.setTileStatus(initialTiles);
 	};
 
@@ -152,13 +158,6 @@ export const useGame = (): UseGameType => {
 
 		const updated = stucked ? step2 : step3;
 		dispatcher.setTileStatus(updated);
-		// console.log(board);
-		// console.log('state.turn');
-		console.log('step1', step1);
-		console.log('step2', step2);
-		console.log('step3', step3);
-		// console.log('stucked', stucked);
-		// console.log('updated', updated);
 	};
 
 	return {
