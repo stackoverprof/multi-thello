@@ -9,7 +9,7 @@ const Play = () => {
 	const { turn } = useGame();
 
 	return (
-		<MainLayout title="Play" className="flex-cc col">
+		<MainLayout title="Play" className="flex-cc col py-12">
 			<ConfigForm />
 			<div className="flex-cc mb-8">
 				<div

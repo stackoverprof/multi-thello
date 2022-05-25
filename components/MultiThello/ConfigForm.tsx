@@ -20,7 +20,7 @@ const ConfigForm = () => {
 	return (
 		<div className="flex-cc mb-12">
 			<div className="flex-ss col mx-2">
-				<label htmlFor="size">Board size</label>
+				<label htmlFor="size">Board size (6 - 12)</label>
 				<input
 					type="text"
 					value={form.board}
@@ -31,7 +31,7 @@ const ConfigForm = () => {
 				/>
 			</div>
 			<div className="flex-ss col mx-2">
-				<label htmlFor="size">How many players</label>
+				<label htmlFor="size">Player size (3 - 8)</label>
 				<input
 					type="text"
 					value={form.player}
