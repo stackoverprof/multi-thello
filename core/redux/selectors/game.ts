@@ -9,12 +9,14 @@ export const useGame = (): UseGameType => {
 	const dispatcher = useAutoDispatcher(actions);
 
 	const initiateBoard = (size) => {
-		const initial = [...Array(size)].fill([...Array(size)].fill(0));
+		const initial = Array(size).fill(Array(size).fill(0));
 		dispatcher.setBoard(initial);
 	};
 
 	const initiatePlayer = (playerSize) => {
-		const ids = [...Array(playerSize)].map((_, i) => i + 1);
+		const ids = Array(playerSize)
+			.fill(null)
+			.map((_, i) => i + 1);
 		dispatcher.setPlayers(ids);
 	};
 
