@@ -23,7 +23,7 @@ const ScoreBoard = () => {
 					}}
 				></div>
 			</div>
-			<div className="flex-cc col">
+			<div className="flex-cs col">
 				{scores.map((data, i) => (
 					<div
 						className="flex-cc my-1 text-xl font-semibold"
