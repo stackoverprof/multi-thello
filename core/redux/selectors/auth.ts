@@ -5,7 +5,7 @@ import { useAutoDispatcher } from '../root';
 import { useSelector } from 'react-redux';
 
 export const useAuth = (): UseAuthType => {
-	const state = useSelector((state: RootState) => state.auth);
+	const state = useSelector((store: RootState) => store.auth);
 	const dispatcher = useAutoDispatcher(actions);
 
 	return {

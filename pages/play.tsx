@@ -8,8 +8,6 @@ import { useGame } from '@core/redux/selectors/game';
 const Play = () => {
 	const { turn, scoring } = useGame();
 
-	console.log(scoring);
-
 	return (
 		<MainLayout title="Play" className="flex-cc col py-12">
 			<ConfigForm />
