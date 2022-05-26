@@ -3,7 +3,7 @@ export const getColor = (seed: number) => {
 };
 
 const colors = [
-	'#ff8a80',
+	'#ff9b91',
 	'#80d8ff',
 	'#ffd740',
 	'#69f0ae',
