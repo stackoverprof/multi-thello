@@ -24,23 +24,25 @@ const ScoreBoard = () => {
 				></div>
 			</div>
 			<div className="flex-cs col">
-				{scores.map((data, i) => (
-					<div
-						className="flex-cc my-1 text-xl font-semibold"
-						style={{
-							color: getColor(data.player),
-						}}
-						key={i}
-					>
+				{scores
+					.sort((a, b) => b.score - a.score)
+					.map((data, i) => (
 						<div
-							className="mr-2 w-4 h-4 rounded-full"
+							className="flex-cc my-1 text-xl font-semibold"
 							style={{
-								backgroundColor: getColor(data.player),
+								color: getColor(data.player),
 							}}
-						></div>
-						{data.score}
-					</div>
-				))}
+							key={i}
+						>
+							<div
+								className="mr-2 w-4 h-4 rounded-full"
+								style={{
+									backgroundColor: getColor(data.player),
+								}}
+							></div>
+							{data.score}
+						</div>
+					))}
 			</div>
 		</div>
 	);
