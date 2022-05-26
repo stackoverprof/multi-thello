@@ -6,7 +6,9 @@ import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
 const Play = () => {
-	const { turn } = useGame();
+	const { turn, scoring } = useGame();
+
+	console.log(scoring);
 
 	return (
 		<MainLayout title="Play" className="flex-cc col py-12">
@@ -28,6 +30,19 @@ const Play = () => {
 				</p>
 			</div>
 			<MultiThello />
+			<div className="flex-cc mt-10">
+				{scoring.map((data, i) => (
+					<p
+						className="mx-4 text-xl font-semibold"
+						style={{
+							color: getColor(data.player),
+						}}
+						key={i}
+					>
+						{data.score}
+					</p>
+				))}
+			</div>
 		</MainLayout>
 	);
 };

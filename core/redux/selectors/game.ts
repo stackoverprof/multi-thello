@@ -119,11 +119,7 @@ export const useGame = (): UseGameType => {
 
 	const updateTileStatus = (board) => {
 		const filterByValue = (tiles) =>
-			tiles.map((cols, x) =>
-				cols.map((_, y) => {
-					return board[x][y] === 0;
-				})
-			);
+			tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
 
 		const filterByNeighborhood = (tiles) =>
 			tiles.map((cols, x) =>
@@ -158,8 +154,7 @@ export const useGame = (): UseGameType => {
 						const flippable = getFlippingChips(selected, getNextPlayer(), board);
 						return flippable.length > 0;
 					};
-					const flippingPossibility = checkFlippingPossibility({ x, y });
-					return flippingPossibility;
+					return checkFlippingPossibility({ x, y });
 				})
 			);
 
@@ -172,9 +167,21 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(result);
 	};
 
+	const scoring = (() => {
+		const template = [...state.players.map((player) => ({ player, score: 0 }))];
+
+		const result = template.map((item) => ({
+			...item,
+			score: state.board.flat().filter((v) => v === item.player).length,
+		}));
+
+		return result;
+	})();
+
 	return {
 		...state,
 		...dispatcher,
+		scoring,
 		start,
 		handleSelect,
 	};
