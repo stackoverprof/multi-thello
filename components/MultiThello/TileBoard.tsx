@@ -17,21 +17,24 @@ const TileBoard = ({ value, x, y, disabled }: Props) => {
 			disabled={disabled}
 			onClick={() => handleSelect({ x, y })}
 			className={[
-				'flex-cc m-1 w-12 h-12 bg-gray-100',
+				'relative flex-cc m-1 w-12 h-12  bg-gray-100',
 				disabled ? 'cursor-not-allowed' : 'cursor-pointer',
 			].join(' ')}
 			key={`${x}-${y}`}
 		>
-			{!disabled && (
-				<p className="text-gray-300">
+			{value ? (
+				<div className="absolute flex-cc">
+					<div
+						className="w-12 h-12 rounded-full"
+						style={{ backgroundColor: getColor(value) }}
+					></div>
+				</div>
+			) : !disabled ? (
+				<p className="z-10 font-semibold text-gray-400 pointer-events-none">
 					{x}, {y}
 				</p>
-			)}
-			{Boolean(value) && (
-				<div
-					className="w-12 h-12 rounded-full"
-					style={{ backgroundColor: getColor(value) }}
-				></div>
+			) : (
+				<></>
 			)}
 		</button>
 	);
