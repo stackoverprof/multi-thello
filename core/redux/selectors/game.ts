@@ -173,7 +173,7 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(updatedTiles);
 	};
 
-	const scoring = (() => {
+	const scores = (() => {
 		const base = [...state.players.map((player) => ({ player, score: 0 }))];
 
 		const result = base.map((item) => ({
@@ -187,7 +187,7 @@ export const useGame = (): UseGameType => {
 	return {
 		...state,
 		...dispatcher,
-		scoring,
+		scores,
 		start,
 		handleSelect,
 	};

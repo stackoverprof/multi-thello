@@ -18,8 +18,9 @@ const ConfigForm = () => {
 	};
 
 	return (
-		<div className="flex-cc mb-12">
-			<div className="flex-ss col mx-2">
+		<div className="flex-cs col mb-12">
+			<h1 className="z-10 mb-20 text-4xl font-bold text-center opacity-30">MultiThello</h1>
+			<div className="flex-ss col my-2">
 				<label htmlFor="size">Board size (6 - 12)</label>
 				<input
 					type="text"
@@ -30,7 +31,7 @@ const ConfigForm = () => {
 					id="size"
 				/>
 			</div>
-			<div className="flex-ss col mx-2">
+			<div className="flex-ss col my-2">
 				<label htmlFor="size">Player size (3 - ∞)</label>
 				<input
 					type="text"
@@ -42,7 +43,7 @@ const ConfigForm = () => {
 					placeholder=""
 				/>
 			</div>
-			<button onClick={reInitiate} className="px-4 py-1 bg-gray-100">
+			<button onClick={reInitiate} className="px-4 py-1 my-6 bg-gray-100">
 				Play
 			</button>
 		</div>

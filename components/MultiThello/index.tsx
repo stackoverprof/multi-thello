@@ -10,7 +10,7 @@ const MultiThello = () => {
 	}, []);
 
 	return (
-		<div className="flex-cc">
+		<div className="flex-cc mx-32">
 			<div className="flex-cc">
 				{tileStatus.map((column, x) => (
 					<div className="flex-cc col" key={x}>
