@@ -19,7 +19,9 @@ const ConfigForm = () => {
 
 	return (
 		<div className="flex-cs col mb-12">
-			<h1 className="z-10 mb-20 text-4xl font-bold text-center opacity-30">MultiThello</h1>
+			<h1 className="z-10 mt-16 mb-8 text-4xl font-bold text-center opacity-20">
+				MultiThello
+			</h1>
 			<div className="flex-ss col my-2">
 				<label htmlFor="size">Board size (6 - 12)</label>
 				<input
