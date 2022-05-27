@@ -18,7 +18,7 @@ export interface GameActionsType {
 export interface UseGameType extends GameStateType, GameActionsType {
 	scores: { player: number; score: number }[];
 	start(config: { player: number; board: number }): void;
-	handleSelect(selected: ChipDataType): void;
+	handleSelect(selected: ChipDataType | 'none'): void;
 }
 
 export type ChipDataType = { x: number; y: number; value?: number };

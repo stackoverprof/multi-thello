@@ -155,28 +155,31 @@ export const useGame = (): UseGameType => {
 	// EXPORTED
 	const start = (options?: StartOptionsType) => {
 		dispatcher.reset();
+		dispatcher.setStatus('playing');
 		if (options) {
 			const { player, board } = options;
+
 			if (player) initiatePlayer(player);
 			if (board) {
 				initiateBoard(board);
 				initiateTiles(board);
 			}
 		}
-
-		dispatcher.setStatus('playing');
 	};
 
-	const handleSelect = (selected: ChipDataType) => {
-		const gained = [...getFlippingChips(selected, state.turn, state.board), selected];
-
-		const updatedBoard = acquireTiles(gained, state.board, state.turn);
+	const handleSelect = (selected: ChipDataType | 'none') => {
 		const updatedTurn = getNextPlayer(state.players, state.turn);
+		dispatcher.setTurn(updatedTurn);
+
+		const gained =
+			selected === 'none'
+				? []
+				: [...getFlippingChips(selected, state.turn, state.board), selected];
+		const updatedBoard = acquireTiles(gained, state.board, state.turn);
 		const updatedTiles = getTilesUpdate(state.tileStatus, updatedBoard, updatedTurn);
 
-		dispatcher.setTurn(updatedTurn);
-		dispatcher.setBoard(updatedBoard);
 		dispatcher.setTileStatus(updatedTiles);
+		dispatcher.setBoard(updatedBoard);
 	};
 
 	const scores = (() => {

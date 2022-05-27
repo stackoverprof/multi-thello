@@ -1,4 +1,5 @@
 import React from 'react';
+import CountdownTimer from './CountdownTimer';
 import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
@@ -7,7 +8,7 @@ const ScoreBoard = () => {
 
 	return (
 		<div className="flex-cs col mt-24">
-			<div className="flex-cc mb-8">{3 / 1000}</div>
+			<CountdownTimer />
 			<div className="flex-cc mb-8">
 				<p
 					className="mr-4 text-xl font-semibold"

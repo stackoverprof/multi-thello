@@ -4,14 +4,18 @@ import { GameActionsType, GameStateType } from '@core/@types/gameRedux';
 const DEFAULT_PLAYER = 4;
 const DEFAULT_BOARD = 8;
 
+export const emptyBoardTemplate = Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(0)); // [TODO] : two player template
+export const playerTemplate = Array(DEFAULT_PLAYER)
+	.fill(null)
+	.map((_, i) => i + 1);
+export const inactiveTilesTemplate = Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(false));
+
 export const initialState: GameStateType = {
 	status: 'initial',
-	board: Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(0)),
+	board: emptyBoardTemplate,
 	turn: 1,
-	players: Array(DEFAULT_PLAYER)
-		.fill(null)
-		.map((_, i) => i + 1),
-	tileStatus: Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(false)),
+	players: playerTemplate,
+	tileStatus: inactiveTilesTemplate,
 };
 
 const ReduxSlice = createSlice({
