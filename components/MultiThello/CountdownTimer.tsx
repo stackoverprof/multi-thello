@@ -14,6 +14,7 @@ const CountdownTimer = () => {
 	};
 
 	useEffect(() => {
+		if (status === 'initial') countdown.pause();
 		if (status === 'playing') countdown.start();
 	}, [status]);
 
