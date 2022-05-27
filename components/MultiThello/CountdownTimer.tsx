@@ -25,7 +25,16 @@ const CountdownTimer = () => {
 		if (status === 'playing' && time === 0) onTimeEnd();
 	}, [time]);
 
-	return <div className="flex-cc mb-8 font-semibold">Timer: {time / 1000} seconds</div>;
+	return (
+		<div className="flex-sc mb-8 h-12 w-[220px] font-semibold">
+			{!!time && (
+				<p className="flex-cc text-3xl">
+					<span className="w-11">{time / 1000}</span>
+					<span className="">{time > 1 ? 'seconds' : 'second'} left</span>
+				</p>
+			)}
+		</div>
+	);
 };
 
 export default CountdownTimer;

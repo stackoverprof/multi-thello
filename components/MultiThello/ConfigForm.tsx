@@ -27,29 +27,37 @@ const ConfigForm = () => {
 				MultiThello
 			</h1>
 			<div className="flex-ss col my-2">
-				<label htmlFor="size">Board size (6 - 12)</label>
+				<label htmlFor="size" className="mb-2">
+					Board size (6 - 12)
+				</label>
 				<input
 					type="text"
 					value={form.board}
 					onChange={mutateForm}
 					name="board"
-					className="border"
+					className="px-3 py-2 bg-white bg-opacity-0 rounded-md border w-54"
 					id="size"
 				/>
 			</div>
 			<div className="flex-ss col my-2">
-				<label htmlFor="size">Player size (3 - ∞)</label>
+				<label htmlFor="size" className="mb-2">
+					Player size (3 - ∞)
+				</label>
 				<input
 					type="text"
 					value={form.player}
 					onChange={mutateForm}
 					name="player"
-					className="border"
+					className="px-3 py-2 bg-white bg-opacity-0 rounded-md border w-54"
 					id="size"
 					placeholder=""
 				/>
 			</div>
-			<button onClick={reInitiate} className="px-4 py-1 my-6 bg-gray-100">
+			<button
+				onClick={reInitiate}
+				className="px-5 py-2 my-6 text-lg font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
+				style={{ borderColor: getColor(turn), color: getColor(turn) }}
+			>
 				Play
 			</button>
 		</div>

@@ -6,7 +6,7 @@ const MultiThello = () => {
 	const { tileStatus, board } = useGame();
 
 	return (
-		<div className="flex-cc mx-32">
+		<div className="flex-cc p-8 mx-24 bg-white rounded-xl">
 			<div className="flex-cc">
 				{tileStatus.map((column, x) => (
 					<div className="flex-cc col" key={x}>

@@ -7,7 +7,7 @@ const ScoreBoard = () => {
 	const { turn, scores } = useGame();
 
 	return (
-		<div className="flex-cs col mt-24">
+		<div className="flex-cs col mt-6">
 			<div className="flex-cc mb-8">
 				<p
 					className="mr-4 text-xl font-semibold"
@@ -37,7 +37,7 @@ const ScoreBoard = () => {
 							key={i}
 						>
 							<div
-								className="mr-2 w-4 h-4 rounded-full"
+								className="mr-4 w-4 h-4 rounded-full"
 								style={{
 									backgroundColor: getColor(data.player),
 								}}
