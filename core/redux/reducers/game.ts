@@ -1,17 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GameActionsType, GameStateType } from '@core/@types/gameRedux';
 
-const initialState: GameStateType = {
-	board: [],
+const DEFAULT_PLAYER = 4;
+const DEFAULT_BOARD = 8;
+
+export const initialState: GameStateType = {
+	status: 'initial',
+	board: Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(0)),
 	turn: 1,
-	players: [],
-	tileStatus: [],
+	players: Array(DEFAULT_PLAYER)
+		.fill(null)
+		.map((_, i) => i + 1),
+	tileStatus: Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(false)),
 };
 
 const ReduxSlice = createSlice({
 	name: 'GAME',
 	initialState,
 	reducers: {
+		setStatus: (state, action) => {
+			state.status = action.payload;
+		},
 		setBoard: (state, action) => {
 			state.board = action.payload;
 		},

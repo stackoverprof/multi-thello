@@ -1,5 +1,5 @@
 import { actions } from '../reducers/game';
-import { ChipDataType, UseGameType } from '@core/@types/gameRedux';
+import { ChipDataType, StartOptionsType, UseGameType } from '@core/@types/gameRedux';
 import { RootState } from '../store';
 import { useAutoDispatcher } from '../root';
 import { useSelector } from 'react-redux';
@@ -153,12 +153,18 @@ export const useGame = (): UseGameType => {
 	};
 
 	// EXPORTED
-	const start = ({ player = 4, board = 8 }) => {
+	const start = (options?: StartOptionsType) => {
 		dispatcher.reset();
+		if (options) {
+			const { player, board } = options;
+			if (player) initiatePlayer(player);
+			if (board) {
+				initiateBoard(board);
+				initiateTiles(board);
+			}
+		}
 
-		initiatePlayer(player);
-		initiateBoard(board);
-		initiateTiles(board);
+		dispatcher.setStatus('playing');
 	};
 
 	const handleSelect = (selected: ChipDataType) => {

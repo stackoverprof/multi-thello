@@ -1,15 +1,17 @@
 export interface GameStateType {
-	board: number[][];
+	status: StatusType;
+	board: BoardType;
 	turn: number;
-	players: number[];
-	tileStatus: boolean[][];
+	players: PlayersType;
+	tileStatus: TileStatusType;
 }
 
 export interface GameActionsType {
-	setBoard(val: any): void;
-	setPlayers(val: any): void;
+	setStatus(val: StatusType): void;
+	setBoard(val: BoardType): void;
+	setPlayers(val: PlayersType): void;
 	setTurn(val: number): void;
-	setTileStatus(val: boolean): void;
+	setTileStatus(val: TileStatusType): void;
 	reset(): void;
 }
 
@@ -20,3 +22,13 @@ export interface UseGameType extends GameStateType, GameActionsType {
 }
 
 export type ChipDataType = { x: number; y: number; value?: number };
+
+export interface StartOptionsType {
+	player?: number;
+	board?: number;
+}
+
+export type StatusType = 'initial' | 'playing' | 'paused';
+export type BoardType = number[][];
+export type TileStatusType = boolean[][];
+export type PlayersType = number[];

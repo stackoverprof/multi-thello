@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TileBoard from './TileBoard';
 import { useGame } from '@core/redux/selectors/game';
 
 const MultiThello = () => {
-	const { tileStatus, board, start } = useGame();
-
-	useEffect(() => {
-		start({ player: 4, board: 8 });
-	}, []);
+	const { tileStatus, board } = useGame();
 
 	return (
 		<div className="flex-cc mx-32">
