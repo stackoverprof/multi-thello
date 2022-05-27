@@ -17,7 +17,7 @@ const TileBoard = ({ value, x, y, disabled }: Props) => {
 			disabled={disabled}
 			onClick={() => handleSelect({ x, y })}
 			className={[
-				'relative flex-cc m-1 w-12 h-12  bg-gray-100',
+				'relative flex-cc m-1 w-12 h-12 bg-gray-200 bg-opacity-60',
 				disabled ? 'cursor-not-allowed' : 'cursor-pointer',
 			].join(' ')}
 			key={`${x}-${y}`}

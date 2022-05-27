@@ -32,6 +32,43 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(initialTiles);
 	};
 
+	const initiateForTwo = (size) => {
+		const getBoardTemplate = (size) => {
+			const initialBoard = Array(size).fill(Array(size).fill(0));
+			const isOdd = !!(size % 2);
+			if (isOdd) {
+				const median = (size - 1) / 2;
+				const a = median - 1;
+				const b = median + 1;
+				const valued = [
+					{ x: a, y: median, value: 1 },
+					{ x: b, y: median, value: 1 },
+					{ x: median, y: b, value: 2 },
+					{ x: median, y: a, value: 2 },
+				];
+				return rewriteBoard(valued, initialBoard);
+			} else {
+				const median = (size - 1) / 2;
+				const a = median - 0.5;
+				const b = median + 0.5;
+				const valued = [
+					{ x: a, y: a, value: 1 },
+					{ x: b, y: b, value: 1 },
+					{ x: a, y: b, value: 2 },
+					{ x: b, y: a, value: 2 },
+				];
+				return rewriteBoard(valued, initialBoard);
+			}
+		};
+
+		const boardTemplate = getBoardTemplate(size);
+		const template = Array(size).fill(Array(size).fill(true));
+		const updatedTiles = getTilesUpdate(template, boardTemplate, state.turn);
+
+		dispatcher.setBoard(boardTemplate);
+		dispatcher.setTileStatus(updatedTiles);
+	};
+
 	const getNextPlayer = (players: number[], turn: number) => {
 		const currentIndex = players.findIndex((x) => x === turn);
 		const nextIndex = currentIndex + 1 === players.length ? 0 : currentIndex + 1;
@@ -94,10 +131,11 @@ export const useGame = (): UseGameType => {
 		return flippingChipsCombined;
 	};
 
-	const acquireTiles = (gained: ChipDataType[], board: number[][], turn: number) =>
+	const rewriteBoard = (gained: ChipDataType[], board: number[][]) =>
 		board.map((cols, i) =>
 			cols.map((val, j) => {
-				if (gained.find(({ x, y }) => x === i && y === j)) return turn;
+				const found = gained.find(({ x, y }) => x === i && y === j);
+				if (found) return found.value;
 				else return val;
 			})
 		);
@@ -153,17 +191,16 @@ export const useGame = (): UseGameType => {
 	};
 
 	// EXPORTED
-	const start = (options?: StartOptionsType) => {
+	const start = ({ player, board }: StartOptionsType) => {
 		dispatcher.reset();
 		dispatcher.setStatus('initial');
-		if (options) {
-			const { player, board } = options;
 
-			if (player) initiatePlayer(player);
-			if (board) {
-				initiateBoard(board);
-				initiateTiles(board);
-			}
+		initiatePlayer(player);
+		if (player === 2) {
+			initiateForTwo(board);
+		} else {
+			initiateBoard(board);
+			initiateTiles(board);
 		}
 	};
 
@@ -175,7 +212,8 @@ export const useGame = (): UseGameType => {
 			selected === 'none'
 				? []
 				: [...getFlippingChips(selected, state.turn, state.board), selected];
-		const updatedBoard = acquireTiles(gained, state.board, state.turn);
+		const valued = gained.map((tile) => ({ ...tile, value: state.turn }));
+		const updatedBoard = rewriteBoard(valued, state.board);
 		const updatedTiles = getTilesUpdate(state.tileStatus, updatedBoard, updatedTurn);
 
 		dispatcher.setTileStatus(updatedTiles);
