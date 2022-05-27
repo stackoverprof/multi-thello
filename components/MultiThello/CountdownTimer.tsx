@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import useCountDown from 'react-countdown-hook';
 import { useGame } from '@core/redux/selectors/game';
 
-const INTERVAL = 5000;
+const INTERVAL = 30000;
 
 const CountdownTimer = () => {
 	const [time, countdown] = useCountDown(INTERVAL);
@@ -25,7 +25,7 @@ const CountdownTimer = () => {
 		if (status === 'playing' && time === 0) onTimeEnd();
 	}, [time]);
 
-	return <div className="flex-cc mb-8">{time / 1000}</div>;
+	return <div className="flex-cc mb-8 font-semibold">Timer: {time / 1000} seconds</div>;
 };
 
 export default CountdownTimer;

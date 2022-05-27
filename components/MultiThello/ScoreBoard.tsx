@@ -8,7 +8,6 @@ const ScoreBoard = () => {
 
 	return (
 		<div className="flex-cs col mt-24">
-			<CountdownTimer />
 			<div className="flex-cc mb-8">
 				<p
 					className="mr-4 text-xl font-semibold"
@@ -25,6 +24,7 @@ const ScoreBoard = () => {
 					}}
 				></div>
 			</div>
+			<CountdownTimer />
 			<div className="flex-cs col">
 				{scores
 					.sort((a, b) => b.score - a.score)

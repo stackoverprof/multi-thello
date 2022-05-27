@@ -1,5 +1,6 @@
 import React from 'react';
 import useForm from '@core/hooks/useForm';
+import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
 const ConfigForm = () => {
@@ -8,7 +9,7 @@ const ConfigForm = () => {
 		board: '8',
 	});
 
-	const { start } = useGame();
+	const { start, turn } = useGame();
 
 	const reInitiate = () => {
 		start({
@@ -19,7 +20,10 @@ const ConfigForm = () => {
 
 	return (
 		<div className="flex-cs col mb-12">
-			<h1 className="z-10 mt-16 mb-8 text-4xl font-bold text-center opacity-20">
+			<h1
+				className="z-10 mt-16 mb-8 text-4xl font-bold text-center "
+				style={{ color: getColor(turn) }}
+			>
 				MultiThello
 			</h1>
 			<div className="flex-ss col my-2">
