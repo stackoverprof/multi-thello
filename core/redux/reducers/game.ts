@@ -1,18 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GameActionsType, GameStateType } from '@core/@types/gameRedux';
 
-const DEFAULT_BOARD = 8;
-
-export const emptyBoardTemplate = Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(0)); // [TODO] : two player template
-
-export const inactiveTilesTemplate = Array(DEFAULT_BOARD).fill(Array(DEFAULT_BOARD).fill(false));
-
 export const initialState: GameStateType = {
 	status: 'initial',
-	board: emptyBoardTemplate,
+	board: [],
 	turn: 1,
 	players: [],
-	tileStatus: inactiveTilesTemplate,
+	tileStatus: [],
 };
 
 const ReduxSlice = createSlice({

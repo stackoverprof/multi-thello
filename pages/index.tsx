@@ -12,13 +12,11 @@ const Play = () => {
 		<MainLayout
 			title="Play"
 			className="flex-cc py-12 transition duration-500"
-			style={{ backgroundColor: getColor(turn) }}
+			style={{ backgroundColor: `${getColor(turn)}44` }}
 		>
-			<div className="absolute flex-cc bg-black bg-opacity-60 full">
-				<ConfigForm />
-				<MultiThello />
-				<ScoreBoard />
-			</div>
+			<ConfigForm />
+			<MultiThello />
+			<ScoreBoard />
 		</MainLayout>
 	);
 };

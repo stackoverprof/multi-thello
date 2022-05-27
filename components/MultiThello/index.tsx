@@ -3,7 +3,7 @@ import TileBoard from './TileBoard';
 import { useGame } from '@core/redux/selectors/game';
 
 const MultiThello = () => {
-	const { tileStatus, board } = useGame();
+	const { tileStatus, board, status } = useGame();
 
 	return (
 		<div className="flex-cc p-8 mx-24 bg-white rounded-xl">
@@ -12,7 +12,7 @@ const MultiThello = () => {
 					<div className="flex-cc col" key={x}>
 						{column.map((abled, y) => (
 							<TileBoard
-								disabled={!abled}
+								disabled={!abled || status === 'initial'}
 								value={board[x][y]}
 								x={x}
 								y={y}

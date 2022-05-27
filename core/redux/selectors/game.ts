@@ -155,7 +155,7 @@ export const useGame = (): UseGameType => {
 	// EXPORTED
 	const start = (options?: StartOptionsType) => {
 		dispatcher.reset();
-		dispatcher.setStatus('playing');
+		dispatcher.setStatus('initial');
 		if (options) {
 			const { player, board } = options;
 

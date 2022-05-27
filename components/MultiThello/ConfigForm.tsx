@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useForm from '@core/hooks/useForm';
 import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
@@ -9,7 +9,7 @@ const ConfigForm = () => {
 		board: '8',
 	});
 
-	const { start, turn, status } = useGame();
+	const { start, turn, status, setStatus } = useGame();
 
 	const reInitiate = () => {
 		start({
@@ -17,6 +17,14 @@ const ConfigForm = () => {
 			board: parseInt(form.board),
 		});
 	};
+
+	const play = () => {
+		setStatus('playing');
+	};
+
+	useEffect(() => {
+		reInitiate();
+	}, []);
 
 	return (
 		<div className="flex-cs col mb-12">
@@ -53,13 +61,23 @@ const ConfigForm = () => {
 					placeholder=""
 				/>
 			</div>
-			<button
-				onClick={reInitiate}
-				className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
-				style={{ borderColor: getColor(turn), color: getColor(turn) }}
-			>
-				{status === 'initial' ? 'START' : 'PLAY'}
-			</button>
+			{status === 'initial' ? (
+				<button
+					onClick={play}
+					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
+					style={{ borderColor: getColor(turn), color: getColor(turn) }}
+				>
+					START
+				</button>
+			) : (
+				<button
+					onClick={reInitiate}
+					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
+					style={{ borderColor: getColor(turn), color: getColor(turn) }}
+				>
+					NEW GAME
+				</button>
+			)}
 		</div>
 	);
 };
