@@ -15,20 +15,18 @@ export const useGame = (): UseGameType => {
 		dispatcher.setPlayers(ids);
 	};
 
-	const initiateBoard = (size) => {
+	const initiate = (size) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
-		dispatcher.setBoard(initialBoard);
-	};
 
-	const initiateTiles = (size) => {
 		const filterByNoEdge = (tiles) =>
 			tiles.map((cols, x) =>
 				cols.map((_, y) => {
 					return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
 				})
 			);
-
 		const initialTiles = filterByNoEdge(Array(size).fill(Array(size).fill(true)));
+
+		dispatcher.setBoard(initialBoard);
 		dispatcher.setTileStatus(initialTiles);
 	};
 
@@ -196,12 +194,9 @@ export const useGame = (): UseGameType => {
 		dispatcher.setStatus('initial');
 
 		initiatePlayer(player);
-		if (player === 2) {
-			initiateForTwo(board);
-		} else {
-			initiateBoard(board);
-			initiateTiles(board);
-		}
+
+		if (player === 2) initiateForTwo(board);
+		else initiate(board);
 	};
 
 	const handleSelect = (selected: ChipDataType | 'none') => {
