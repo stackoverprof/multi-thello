@@ -9,7 +9,7 @@ const ConfigForm = () => {
 		board: '8',
 	});
 
-	const { start, turn } = useGame();
+	const { start, turn, status } = useGame();
 
 	const reInitiate = () => {
 		start({
@@ -28,7 +28,7 @@ const ConfigForm = () => {
 			</h1>
 			<div className="flex-ss col my-2">
 				<label htmlFor="size" className="mb-2">
-					Board size (6 - 12)
+					Board size
 				</label>
 				<input
 					type="text"
@@ -55,10 +55,10 @@ const ConfigForm = () => {
 			</div>
 			<button
 				onClick={reInitiate}
-				className="px-5 py-2 my-6 text-lg font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
+				className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
 				style={{ borderColor: getColor(turn), color: getColor(turn) }}
 			>
-				Play
+				{status === 'initial' ? 'START' : 'PLAY'}
 			</button>
 		</div>
 	);
