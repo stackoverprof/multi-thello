@@ -9,7 +9,7 @@ const ConfigForm = () => {
 		board: '8',
 	});
 
-	const { start, turn, status, setStatus } = useGame();
+	const { start, turn, board, players, status, setStatus } = useGame();
 
 	const reInitiate = () => {
 		start({
@@ -25,6 +25,9 @@ const ConfigForm = () => {
 	useEffect(() => {
 		reInitiate();
 	}, []);
+
+	const needReinitiation =
+		parseInt(form.board) !== board.length || parseInt(form.player) !== players.length;
 
 	return (
 		<div className="flex-cs col mb-12">
@@ -61,7 +64,7 @@ const ConfigForm = () => {
 					placeholder=""
 				/>
 			</div>
-			{status === 'initial' ? (
+			{status === 'initial' && !needReinitiation ? (
 				<button
 					onClick={play}
 					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
