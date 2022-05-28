@@ -17,7 +17,6 @@ export const useGame = (): UseGameType => {
 
 	const initiate = (size) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
-
 		const initialTiles = filterByNoEdge(Array(size).fill(Array(size).fill(true)));
 
 		dispatcher.setBoard(initialBoard);
@@ -27,6 +26,7 @@ export const useGame = (): UseGameType => {
 	const initiateForTwo = (size) => {
 		const getBoardTemplate = (size) => {
 			const initialBoard = Array(size).fill(Array(size).fill(0));
+			if (size < 4) return initialBoard;
 			const isOdd = !!(size % 2);
 			if (isOdd) {
 				const median = (size - 1) / 2;
@@ -132,12 +132,14 @@ export const useGame = (): UseGameType => {
 			})
 		);
 
-	const filterByNoEdge = (tiles) =>
-		tiles.map((cols, x) =>
+	const filterByNoEdge = (tiles) => {
+		if (tiles.length < 3) return tiles;
+		return tiles.map((cols, x) =>
 			cols.map((_, y) => {
 				return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
 			})
 		);
+	};
 
 	const filterByValue = (tiles, board) =>
 		tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
