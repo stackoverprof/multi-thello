@@ -1,5 +1,7 @@
+import * as ColorSeed from 'color-seed';
+
 export const getColor = (seed: number) => {
-	return colors[seed - 1];
+	return colors[seed - 1] || ColorSeed.getColor(obfuscate(seed));
 };
 
 const colors = [
@@ -24,4 +26,10 @@ const colors = [
 	'#cdcdcd',
 	'#ba101a',
 ];
+
+function obfuscate(seed) {
+	return seed % 2
+		? seed * 2 + Math.pow(2, seed) / 2
+		: ((seed * seed) / 2) * (Math.sqrt(seed) * 2);
+}
 
