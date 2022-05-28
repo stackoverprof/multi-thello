@@ -18,12 +18,6 @@ export const useGame = (): UseGameType => {
 	const initiate = (size) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
 
-		const filterByNoEdge = (tiles) =>
-			tiles.map((cols, x) =>
-				cols.map((_, y) => {
-					return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
-				})
-			);
 		const initialTiles = filterByNoEdge(Array(size).fill(Array(size).fill(true)));
 
 		dispatcher.setBoard(initialBoard);
@@ -60,7 +54,7 @@ export const useGame = (): UseGameType => {
 		};
 
 		const boardTemplate = getBoardTemplate(size);
-		const template = Array(size).fill(Array(size).fill(true));
+		const template = Array(size).fill(Array(size).fill(false));
 		const updatedTiles = getTilesUpdate(template, boardTemplate, state.turn);
 
 		dispatcher.setBoard(boardTemplate);
@@ -73,7 +67,7 @@ export const useGame = (): UseGameType => {
 		return players[nextIndex];
 	};
 
-	const getFlippingChips = (selected: ChipDataType, turn: number, board: number[][]) => {
+	const getFlippingChips = (selected: ChipDataType, board: number[][], turn: number) => {
 		const enemyNeighbors = (() => {
 			const xNeighbors = [selected.x - 1, selected.x, selected.x + 1];
 			const yNeighbors = [selected.y - 1, selected.y, selected.y + 1];
@@ -138,54 +132,61 @@ export const useGame = (): UseGameType => {
 			})
 		);
 
+	const filterByNoEdge = (tiles) =>
+		tiles.map((cols, x) =>
+			cols.map((_, y) => {
+				return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
+			})
+		);
+
+	const filterByValue = (tiles, board) =>
+		tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
+
+	const filterByNeighborhood = (tiles, board) =>
+		tiles.map((cols, x) =>
+			cols.map((_, y) => {
+				const current = { x, y };
+				if (board[current.x][current.y]) return false;
+
+				const getOccupiedNeighbors = () => {
+					const xNeighbors = [current.x - 1, current.x, current.x + 1];
+					const yNeighbors = [current.y - 1, current.y, current.y + 1];
+					const neighbors = xNeighbors.map((x) => yNeighbors.map((y) => ({ x, y })));
+
+					return neighbors
+						.flat()
+						.filter(({ x, y }) => x >= 0 && y >= 0)
+						.filter(({ x, y }) => x < board.length && y < board.length)
+						.filter(({ x, y }) => x !== current.x || y !== current.y)
+						.filter(({ x, y }) => board[x][y] !== 0);
+				};
+
+				const hasOccupiedNeighbors = getOccupiedNeighbors().length > 0;
+
+				return hasOccupiedNeighbors;
+			})
+		);
+
+	const filterByFlippingPossibility = (tiles, board, turn) =>
+		tiles.map((cols, x) =>
+			cols.map((val, y) => {
+				if (!val) return false;
+				const checkFlippingPossibility = (selected) => {
+					const flippable = getFlippingChips(selected, board, turn);
+					return flippable.length > 0;
+				};
+				return checkFlippingPossibility({ x, y });
+			})
+		);
+
 	const getTilesUpdate = (prev: boolean[][], board: number[][], turn: number) => {
-		const filterByValue = (tiles) =>
-			tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
-
-		const filterByNeighborhood = (tiles) =>
-			tiles.map((cols, x) =>
-				cols.map((_, y) => {
-					const current = { x, y };
-					if (board[current.x][current.y]) return false;
-
-					const getOccupiedNeighbors = () => {
-						const xNeighbors = [current.x - 1, current.x, current.x + 1];
-						const yNeighbors = [current.y - 1, current.y, current.y + 1];
-						const neighbors = xNeighbors.map((x) => yNeighbors.map((y) => ({ x, y })));
-
-						return neighbors
-							.flat()
-							.filter(({ x, y }) => x >= 0 && y >= 0)
-							.filter(({ x, y }) => x < board.length && y < board.length)
-							.filter(({ x, y }) => x !== current.x || y !== current.y)
-							.filter(({ x, y }) => board[x][y] !== 0);
-					};
-
-					const hasOccupiedNeighbors = getOccupiedNeighbors().length > 0;
-
-					return hasOccupiedNeighbors;
-				})
-			);
-
-		const filterByFlippingPossibility = (tiles) =>
-			tiles.map((cols, x) =>
-				cols.map((val, y) => {
-					if (!val) return false;
-					const checkFlippingPossibility = (selected) => {
-						const flippable = getFlippingChips(selected, turn, board);
-						return flippable.length > 0;
-					};
-					return checkFlippingPossibility({ x, y });
-				})
-			);
-
-		const step1 = filterByValue(prev);
-		const step2 = filterByNeighborhood(step1);
-		const step3 = filterByFlippingPossibility(step2);
-		const stucked = step3.flat().filter((val) => val).length === 0;
-		const result = stucked ? step2 : step3;
-
-		return result;
+		const step1 = filterByValue(prev, board);
+		if (step1.flat().filter((val) => !val).length === 0) return filterByNoEdge(step1);
+		const step2 = filterByNeighborhood(step1, board);
+		if (step2.flat().filter((val) => val).length === 0) return step1;
+		const step3 = filterByFlippingPossibility(step2, board, turn);
+		if (step3.flat().filter((val) => val).length === 0) return step2;
+		return step3;
 	};
 
 	// EXPORTED
@@ -206,7 +207,7 @@ export const useGame = (): UseGameType => {
 		const gained =
 			selected === 'none'
 				? []
-				: [...getFlippingChips(selected, state.turn, state.board), selected];
+				: [...getFlippingChips(selected, state.board, state.turn), selected];
 		const valued = gained.map((tile) => ({ ...tile, value: state.turn }));
 		const updatedBoard = rewriteBoard(valued, state.board);
 		const updatedTiles = getTilesUpdate(state.tileStatus, updatedBoard, updatedTurn);
