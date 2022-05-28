@@ -13,7 +13,7 @@ const Play = () => {
 	return (
 		<MainLayout
 			title="Play"
-			className="flex-cc py-24 transition duration-500"
+			className="flex-cc overflow-hidden py-24 transition duration-500"
 			style={{
 				backgroundColor: `${
 					winners.length > 1 ? '#ffffff' : getColor(winners[0] || turn)

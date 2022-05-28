@@ -46,20 +46,24 @@ const CountdownTimer = () => {
 				</p>
 			)}
 			{gameOver && (
-				<div className="flex-sc">
-					<p className="text-3xl whitespace-nowrap">Congratz to</p>
-					<div className="flex-sc mx-2.5 gap-2">
-						{winners.map((winner, i) => (
-							<div
-								key={i}
-								className="w-8 h-8 rounded-full"
-								style={{
-									minWidth: 32,
-									minHeight: 32,
-									backgroundColor: getColor(winner),
-								}}
-							></div>
-						))}
+				<div className="flex-cs col">
+					<p className="mb-2 text-2xl whitespace-nowrap">Winner winner</p>
+					<div className="flex-sc">
+						<div className="flex-sc gap-2">
+							{winners.map((winner, i) => (
+								<div
+									key={i}
+									className="w-8 h-8 rounded-full"
+									style={{
+										minWidth: 32,
+										minHeight: 32,
+										backgroundColor: getColor(winner),
+									}}
+								></div>
+							))}
+						</div>
+
+						<p className="mt-1 ml-3 text-lg whitespace-nowrap">Chicken dinner</p>
 					</div>
 				</div>
 			)}
