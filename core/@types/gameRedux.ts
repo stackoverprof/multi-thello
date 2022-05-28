@@ -28,8 +28,8 @@ export interface UseGameType extends GameStateType, GameActionsType {
 export type ChipDataType = { x: number; y: number; value?: number };
 
 export interface StartOptionsType {
-	player?: number;
-	board?: number;
+	player: number;
+	board: number;
 }
 
 export type StatusType = 'initial' | 'playing' | 'paused';
