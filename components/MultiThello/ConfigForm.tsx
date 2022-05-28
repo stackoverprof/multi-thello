@@ -38,8 +38,9 @@ const ConfigForm = () => {
 				{players.length === 1 ? 'Thello' : players.length === 2 ? 'OThello' : 'MultiThello'}
 			</h1>
 			<div className="flex-ss col my-2">
-				<label htmlFor="size" className="mb-2">
-					Board size
+				<label htmlFor="size" className="flex-cc gap-1 mb-2">
+					<span className="text-lg font-semibold">Board</span>
+					<span className="text-sm opacity-50">(any size you like)</span>
 				</label>
 				<input
 					type="text"
@@ -51,8 +52,9 @@ const ConfigForm = () => {
 				/>
 			</div>
 			<div className="flex-ss col my-2">
-				<label htmlFor="size" className="mb-2">
-					Player size (3 - ∞)
+				<label htmlFor="size" className="flex-cc gap-1 mb-2">
+					<span className="text-lg font-semibold">Player</span>
+					<span className="text-sm opacity-50">(as much as you want)</span>
 				</label>
 				<input
 					type="text"
