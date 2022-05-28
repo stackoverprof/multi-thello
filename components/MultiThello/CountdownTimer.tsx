@@ -7,7 +7,7 @@ const INTERVAL = 30000;
 
 const CountdownTimer = () => {
 	const [time, countdown] = useCountDown(INTERVAL);
-	const { status, turn, scores, gameOver, handleSelect } = useGame();
+	const { status, turn, winner, gameOver, handleSelect } = useGame();
 
 	const onTimeEnd = () => {
 		handleSelect('none');
@@ -30,8 +30,6 @@ const CountdownTimer = () => {
 	useEffect(() => {
 		if (gameOver) countdown.pause();
 	}, [gameOver]);
-
-	const winner = scores.sort((a, b) => b.score - a.score)[0]?.player;
 
 	return (
 		<div className="flex-sc mb-8 h-12 w-[220px] font-semibold">
