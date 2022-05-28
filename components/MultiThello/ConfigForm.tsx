@@ -69,10 +69,12 @@ const ConfigForm = () => {
 			{status === 'initial' && !needReinitiation ? (
 				<button
 					onClick={play}
-					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
+					className="px-4 my-6 h-11 text-[22px] font-bold rounded-md border filter hover:brightness-75"
 					style={{
+						backgroundColor:
+							winners.length > 1 ? 'white' : getColor(winners[0] || turn),
 						borderColor: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
-						color: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
+						color: '#0008',
 					}}
 				>
 					START
@@ -80,7 +82,7 @@ const ConfigForm = () => {
 			) : (
 				<button
 					onClick={reInitiate}
-					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
+					className="px-4 my-6 h-11 text-lg font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
 					style={{
 						borderColor: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
 						color: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
