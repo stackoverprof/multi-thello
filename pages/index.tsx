@@ -8,7 +8,6 @@ import { useGame } from '@core/redux/selectors/game';
 
 const Play = () => {
 	const { turn, winners } = useGame();
-	console.log(winners);
 
 	return (
 		<MainLayout

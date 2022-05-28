@@ -191,6 +191,8 @@ export const useGame = (): UseGameType => {
 		return step3;
 	};
 
+	const validateSelection = ({ x, y }) => state.tileStatus[x][y];
+
 	// EXPORTED
 	const start = ({ player, board }: StartOptionsType) => {
 		dispatcher.reset();
@@ -240,6 +242,14 @@ export const useGame = (): UseGameType => {
 		return result;
 	})();
 
+	const setSelected = (selected: ChipDataType | null) => {
+		if (selected === null) {
+			dispatcher.setSelected(null);
+		} else if (validateSelection(selected)) {
+			dispatcher.setSelected(selected);
+		}
+	};
+
 	return {
 		...state,
 		...dispatcher,
@@ -247,6 +257,7 @@ export const useGame = (): UseGameType => {
 		start,
 		gameOver,
 		winners,
+		setSelected,
 		handleSelect,
 	};
 };
