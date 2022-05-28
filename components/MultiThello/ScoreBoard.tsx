@@ -7,8 +7,12 @@ const ScoreBoard = () => {
 	const { turn, scores, status, gameOver } = useGame();
 
 	return (
-		<div className={['flex-cs col mt-6', status === 'initial' && 'opacity-0'].join(' ')}>
-			<div className={['flex-cc mb-8', gameOver && 'opacity-0'].join(' ')}>
+		<div className={['flex-cs col mt-6'].join(' ')}>
+			<div
+				className={['flex-cc mb-8', gameOver || (status === 'initial' && 'opacity-0')].join(
+					' '
+				)}
+			>
 				<p
 					className="mr-4 text-xl font-semibold"
 					style={{
@@ -25,7 +29,7 @@ const ScoreBoard = () => {
 				></div>
 			</div>
 			<CountdownTimer />
-			<div className="flex-ss col overflow-y-auto h-64">
+			<div className="flex-ss col overflow-y-auto h-[236px]">
 				{scores
 					.sort((a, b) => b.score - a.score)
 					.map((data, i) => (

@@ -30,9 +30,15 @@ const CountdownTimer = () => {
 	useEffect(() => {
 		if (gameOver) countdown.pause();
 	}, [gameOver]);
+	console.log(status);
 
 	return (
-		<div className="flex-sc mb-8 h-12 w-[220px] font-semibold">
+		<div
+			className={[
+				'flex-sc mb-8 h-12 w-[220px] font-semibold',
+				status !== 'playing' && 'opacity-0',
+			].join(' ')}
+		>
 			{!!time && !gameOver && (
 				<p className="flex-cc text-3xl">
 					<span className="w-11">{time / 1000}</span>
