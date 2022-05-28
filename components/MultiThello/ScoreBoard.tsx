@@ -25,12 +25,12 @@ const ScoreBoard = () => {
 				></div>
 			</div>
 			<CountdownTimer />
-			<div className="flex-cs col">
+			<div className="flex-ss col overflow-y-auto h-64">
 				{scores
 					.sort((a, b) => b.score - a.score)
 					.map((data, i) => (
 						<div
-							className="flex-cc my-1 text-xl font-semibold"
+							className="flex-sc my-1 w-48 text-xl font-semibold"
 							style={{
 								color: getColor(data.player),
 							}}

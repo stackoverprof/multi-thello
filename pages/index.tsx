@@ -11,7 +11,7 @@ const Play = () => {
 	return (
 		<MainLayout
 			title="Play"
-			className="flex-cc py-12 transition duration-500"
+			className="flex-cc py-24 transition duration-500"
 			style={{ backgroundColor: `${getColor(turn)}44` }}
 		>
 			<ConfigForm />
