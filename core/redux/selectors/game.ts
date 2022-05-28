@@ -228,7 +228,7 @@ export const useGame = (): UseGameType => {
 
 	const gameOver = state.board.flat().filter((val) => !val).length === 0;
 
-	const winner = gameOver ? scores.sort((a, b) => b.score - a.score)[0].player : 0;
+	const winner = gameOver ? scores.sort((a, b) => b.score - a.score)[0]?.player : 0;
 
 	return {
 		...state,
