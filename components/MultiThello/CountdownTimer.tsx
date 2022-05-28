@@ -3,7 +3,7 @@ import useCountDown from 'react-countdown-hook';
 import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
-const INTERVAL = 3000;
+const INTERVAL = 30000;
 
 const CountdownTimer = () => {
 	const [time, countdown] = useCountDown(INTERVAL);

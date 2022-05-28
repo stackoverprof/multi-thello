@@ -17,7 +17,7 @@ const Play = () => {
 			style={{
 				backgroundColor: `${
 					winners.length > 1 ? '#ffffff' : getColor(winners[0] || turn)
-				}44`,
+				}4a`,
 			}}
 		>
 			<ConfigForm />
