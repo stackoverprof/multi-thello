@@ -35,7 +35,7 @@ const ConfigForm = () => {
 				className="z-10 mt-16 mb-8 text-4xl font-bold text-center "
 				style={{ color: getColor(turn) }}
 			>
-				{players.length === 2 ? 'OThello' : 'MultiThello'}
+				{players.length === 1 ? 'Thello' : players.length === 2 ? 'OThello' : 'MultiThello'}
 			</h1>
 			<div className="flex-ss col my-2">
 				<label htmlFor="size" className="mb-2">
