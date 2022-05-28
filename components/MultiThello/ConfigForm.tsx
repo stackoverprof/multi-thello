@@ -9,7 +9,7 @@ const ConfigForm = () => {
 		board: '8',
 	});
 
-	const { start, turn, winner, board, players, status, setStatus } = useGame();
+	const { start, turn, winners, board, players, status, setStatus } = useGame();
 
 	const reInitiate = () => {
 		start({
@@ -33,7 +33,7 @@ const ConfigForm = () => {
 		<div className="flex-cs col mb-12">
 			<h1
 				className="z-10 mt-16 mb-8 text-4xl font-bold text-center "
-				style={{ color: getColor(winner || turn) }}
+				style={{ color: winners.length > 1 ? 'white' : getColor(winners[0] || turn) }}
 			>
 				{players.length === 1 ? 'Thello' : players.length === 2 ? 'OThello' : 'MultiThello'}
 			</h1>
@@ -71,8 +71,8 @@ const ConfigForm = () => {
 					onClick={play}
 					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
 					style={{
-						borderColor: getColor(winner || turn),
-						color: getColor(winner || turn),
+						borderColor: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
+						color: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
 					}}
 				>
 					START
@@ -82,8 +82,8 @@ const ConfigForm = () => {
 					onClick={reInitiate}
 					className="px-4 py-1.5 my-6 text-xl font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
 					style={{
-						borderColor: getColor(winner || turn),
-						color: getColor(winner || turn),
+						borderColor: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
+						color: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
 					}}
 				>
 					NEW GAME

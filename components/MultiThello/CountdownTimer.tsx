@@ -7,7 +7,7 @@ const INTERVAL = 30000;
 
 const CountdownTimer = () => {
 	const [time, countdown] = useCountDown(INTERVAL);
-	const { status, turn, winner, gameOver, handleSelect } = useGame();
+	const { status, turn, winners, gameOver, handleSelect } = useGame();
 
 	const onTimeEnd = () => {
 		handleSelect('none');
@@ -40,15 +40,21 @@ const CountdownTimer = () => {
 				</p>
 			)}
 			{gameOver && (
-				<div className="flex-cc text-3xl whitespace-nowrap">
-					Congratz to
-					<div
-						className="mx-2.5 w-8 h-8 rounded-full"
-						style={{
-							backgroundColor: getColor(winner),
-						}}
-					></div>
-					!
+				<div className="flex-sc">
+					<p className="text-3xl whitespace-nowrap">Congratz to</p>
+					<div className="flex-sc mx-2.5 gap-2">
+						{winners.map((winner, i) => (
+							<div
+								key={i}
+								className="w-8 h-8 rounded-full"
+								style={{
+									minWidth: 32,
+									minHeight: 32,
+									backgroundColor: getColor(winner),
+								}}
+							></div>
+						))}
+					</div>
 				</div>
 			)}
 		</div>

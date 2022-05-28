@@ -19,7 +19,7 @@ export interface UseGameType extends GameStateType, GameActionsType {
 	start(config: { player: number; board: number }): void;
 	scores: { player: number; score: number }[];
 	gameOver: boolean;
-	winner: number;
+	winners: number[];
 	handleSelect(selected: ChipDataType | 'none'): void;
 }
 

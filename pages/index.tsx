@@ -7,13 +7,18 @@ import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
 const Play = () => {
-	const { turn, winner } = useGame();
+	const { turn, winners } = useGame();
+	console.log(winners);
 
 	return (
 		<MainLayout
 			title="Play"
 			className="flex-cc py-24 transition duration-500"
-			style={{ backgroundColor: `${getColor(winner || turn)}44` }}
+			style={{
+				backgroundColor: `${
+					winners.length > 1 ? '#ffffff' : getColor(winners[0] || turn)
+				}44`,
+			}}
 		>
 			<ConfigForm />
 			<MultiThello />
