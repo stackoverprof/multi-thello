@@ -4,11 +4,11 @@ import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
 const ScoreBoard = () => {
-	const { turn, scores, status } = useGame();
+	const { turn, scores, status, gameOver } = useGame();
 
 	return (
 		<div className={['flex-cs col mt-6', status === 'initial' && 'opacity-0'].join(' ')}>
-			<div className="flex-cc mb-8">
+			<div className={['flex-cc mb-8', gameOver && 'opacity-0'].join(' ')}>
 				<p
 					className="mr-4 text-xl font-semibold"
 					style={{

@@ -226,11 +226,17 @@ export const useGame = (): UseGameType => {
 		return result;
 	})();
 
+	const gameOver = state.board.flat().filter((val) => !val).length === 0;
+
+	const winner = gameOver ? scores.sort((a, b) => b.score - a.score)[0].player : 0;
+
 	return {
 		...state,
 		...dispatcher,
 		scores,
 		start,
+		gameOver,
+		winner,
 		handleSelect,
 	};
 };
