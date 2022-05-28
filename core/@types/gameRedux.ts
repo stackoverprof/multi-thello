@@ -4,6 +4,7 @@ export interface GameStateType {
 	turn: number;
 	players: PlayersType;
 	tileStatus: TileStatusType;
+	selected: ChipDataType | null;
 }
 
 export interface GameActionsType {
@@ -12,6 +13,7 @@ export interface GameActionsType {
 	setPlayers(val: PlayersType): void;
 	setTurn(val: number): void;
 	setTileStatus(val: TileStatusType): void;
+	setSelected(val: ChipDataType | null): void;
 	reset(): void;
 }
 

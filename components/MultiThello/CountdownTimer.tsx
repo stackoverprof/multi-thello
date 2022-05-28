@@ -3,14 +3,15 @@ import useCountDown from 'react-countdown-hook';
 import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
-const INTERVAL = 30000;
+const INTERVAL = 3000;
 
 const CountdownTimer = () => {
 	const [time, countdown] = useCountDown(INTERVAL);
-	const { status, turn, winners, gameOver, handleSelect } = useGame();
+	const { selected, setSelected, status, turn, winners, gameOver, handleSelect } = useGame();
 
-	const onTimeEnd = () => {
-		handleSelect('none');
+	const executeSelection = () => {
+		handleSelect(selected || 'none');
+		setSelected(null);
 		countdown.start();
 	};
 
@@ -24,13 +25,12 @@ const CountdownTimer = () => {
 	}, [turn]);
 
 	useEffect(() => {
-		if (status === 'playing' && time === 0) onTimeEnd();
-	}, [time]);
+		if (status === 'playing' && (time === 0 || selected)) executeSelection();
+	}, [time, selected]);
 
 	useEffect(() => {
 		if (gameOver) countdown.pause();
 	}, [gameOver]);
-	console.log(status);
 
 	return (
 		<div

@@ -7,6 +7,7 @@ export const initialState: GameStateType = {
 	turn: 1,
 	players: [],
 	tileStatus: [],
+	selected: null,
 };
 
 const ReduxSlice = createSlice({
@@ -27,6 +28,9 @@ const ReduxSlice = createSlice({
 		},
 		setTileStatus: (state, action) => {
 			state.tileStatus = action.payload;
+		},
+		setSelected: (state, action) => {
+			state.selected = action.payload;
 		},
 		reset: () => initialState,
 	},

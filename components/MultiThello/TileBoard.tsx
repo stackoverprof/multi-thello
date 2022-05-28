@@ -10,12 +10,12 @@ interface Props {
 }
 
 const TileBoard = ({ value, x, y, disabled }: Props) => {
-	const { handleSelect } = useGame();
+	const { setSelected } = useGame();
 
 	return (
 		<button
 			disabled={disabled}
-			onClick={() => handleSelect({ x, y })}
+			onClick={() => setSelected({ x, y })}
 			className={[
 				'relative flex-cc m-1 w-12 h-12 bg-gray-200 bg-opacity-60',
 				disabled ? 'cursor-not-allowed' : 'cursor-pointer',
