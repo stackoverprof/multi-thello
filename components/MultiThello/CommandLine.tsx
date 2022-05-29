@@ -16,20 +16,23 @@ const CommandLine = () => {
 		if (cli) cli.current.focus();
 	}, []);
 
-	const keyPressed = (e) => {
-		if (e.key === '/') cli.current.focus();
-	};
-
 	useEffect(() => {
+		const keyPressed = (e) => {
+			if (!focus && e.key === '/') {
+				e.preventDefault();
+				cli.current.focus();
+				setFocus(true);
+			}
+		};
 		document.addEventListener('keypress', keyPressed);
 		return () => document.removeEventListener('keypress', keyPressed);
-	}, []);
+	}, [focus]);
 
 	return (
 		<form
 			autoComplete="off"
 			onSubmit={commander}
-			className="flex-sc bg-black bg-opacity-40 rounded-md border w-54"
+			className="flex-sc w-[340px] bg-black bg-opacity-40 rounded-md border"
 		>
 			<p className="mr-3 ml-4 text-2xl font-bold">{'>'}</p>
 			<input
@@ -42,9 +45,11 @@ const CommandLine = () => {
 				value={form.command}
 				onChange={mutateForm}
 				name="command"
-				className="py-2 pr-3 bg-white bg-opacity-0"
+				className="py-2 pr-3 w-full bg-white bg-opacity-0"
 				id="size"
-				placeholder={focus ? '/start  /new  or  x,y ' : 'press / to focus'}
+				placeholder={
+					focus ? '/start  /new [board] [player]  or  [x], [y]' : 'press / to focus'
+				}
 			/>
 		</form>
 	);
