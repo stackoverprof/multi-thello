@@ -8,8 +8,6 @@ const useCommand = (value: string, callback: () => void) => {
 		const command = value.trim();
 
 		const select = command.split('/select ').join('');
-
-		console.log(select);
 		if (select.length > 2 && /^[0-9](,[0-9])*$/.test(select.replace(/\s/g, ''))) {
 			const splitted = select.replace(/\s/g, '').split(',');
 			if (splitted.length === 2) {
@@ -40,4 +38,3 @@ const useCommand = (value: string, callback: () => void) => {
 };
 
 export default useCommand;
-

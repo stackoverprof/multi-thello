@@ -82,4 +82,3 @@ function obfuscate(seed) {
 		? seed * 2 + Math.pow(2, seed) / 2
 		: ((seed * seed) / 2) * (Math.sqrt(seed) * 2);
 }
-
