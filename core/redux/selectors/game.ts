@@ -199,25 +199,8 @@ export const useGame = (): UseGameType => {
 		dispatcher.setStatus('initial');
 
 		initiatePlayer(player);
-
 		if (player === 2) initiateForTwo(board);
 		else initiate(board);
-	};
-
-	const handleSelect = (selected: ChipDataType | 'none') => {
-		const updatedTurn = getNextPlayer(state.players, state.turn);
-		dispatcher.setTurn(updatedTurn);
-
-		const gained =
-			selected === 'none'
-				? []
-				: [...getFlippingChips(selected, state.board, state.turn), selected];
-		const valued = gained.map((tile) => ({ ...tile, value: state.turn }));
-		const updatedBoard = rewriteBoard(valued, state.board);
-		const updatedTiles = getTilesUpdate(state.tileStatus, updatedBoard, updatedTurn);
-
-		dispatcher.setTileStatus(updatedTiles);
-		dispatcher.setBoard(updatedBoard);
 	};
 
 	const scores = (() => {
@@ -250,11 +233,26 @@ export const useGame = (): UseGameType => {
 		}
 	};
 
+	const handleSelect = (selected: ChipDataType | null) => {
+		const updatedTurn = getNextPlayer(state.players, state.turn);
+		dispatcher.setTurn(updatedTurn);
+
+		const gained = selected
+			? [...getFlippingChips(selected, state.board, state.turn), selected]
+			: [];
+		const valued = gained.map((tile) => ({ ...tile, value: state.turn }));
+		const updatedBoard = rewriteBoard(valued, state.board);
+		const updatedTiles = getTilesUpdate(state.tileStatus, updatedBoard, updatedTurn);
+
+		dispatcher.setTileStatus(updatedTiles);
+		dispatcher.setBoard(updatedBoard);
+	};
+
 	return {
 		...state,
 		...dispatcher,
-		scores,
 		start,
+		scores,
 		gameOver,
 		winners,
 		setSelected,

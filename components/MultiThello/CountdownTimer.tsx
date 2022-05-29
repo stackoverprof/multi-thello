@@ -10,7 +10,7 @@ const CountdownTimer = () => {
 	const { selected, setSelected, status, turn, winners, gameOver, handleSelect } = useGame();
 
 	const executeSelection = () => {
-		handleSelect(selected || 'none');
+		handleSelect(selected || null);
 		setSelected(null);
 		countdown.start();
 	};

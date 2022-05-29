@@ -22,7 +22,7 @@ export interface UseGameType extends GameStateType, GameActionsType {
 	scores: { player: number; score: number }[];
 	gameOver: boolean;
 	winners: number[];
-	handleSelect(selected: ChipDataType | 'none'): void;
+	handleSelect(selected: ChipDataType | null): void;
 }
 
 export type ChipDataType = { x: number; y: number; value?: number };
