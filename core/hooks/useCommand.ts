@@ -7,17 +7,17 @@ const useCommand = (value: string, callback: () => void) => {
 		e.preventDefault();
 		const command = value.trim();
 
-		if (command.length > 2 && /^[0-9](,[0-9])*$/.test(command.replace(/\s/g, ''))) {
-			console.log(command);
+		const select = command.split('/select ').join('');
 
-			const splitted = command.replace(/\s/g, '').split(',');
+		console.log(select);
+		if (select.length > 2 && /^[0-9](,[0-9])*$/.test(select.replace(/\s/g, ''))) {
+			const splitted = select.replace(/\s/g, '').split(',');
 			if (splitted.length === 2) {
 				const selected = { x: parseInt(splitted[0]), y: parseInt(splitted[1]) };
 				setSelected(selected);
 			}
 		} else if (command.split(' ')[0] === '/new') {
 			const config = command.split(' ');
-			console.log(config);
 
 			if (/^\d+$/.test(config[1]) && /^\d+$/.test(config[2])) {
 				start({
