@@ -15,6 +15,15 @@ const CommandLine = () => {
 		if (cli) cli.current.focus();
 	}, []);
 
+	const keyPressed = (e) => {
+		if (e.key === '/') cli.current.focus();
+	};
+
+	useEffect(() => {
+		document.addEventListener('keypress', keyPressed);
+		return () => document.removeEventListener('keypress', keyPressed);
+	}, []);
+
 	return (
 		<form
 			autoComplete="off"
