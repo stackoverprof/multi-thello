@@ -4,9 +4,9 @@ import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
 const ConfigForm = () => {
-	const { form, mutateForm } = useForm({
-		player: '4',
+	const { form, mutateForm, setForm } = useForm({
 		board: '8',
+		player: '4',
 	});
 
 	const { start, turn, winners, board, players, status, setStatus } = useGame();
@@ -26,8 +26,17 @@ const ConfigForm = () => {
 		reInitiate();
 	}, []);
 
+	useEffect(() => {
+		reInitiate();
+	}, []);
+
 	const needReinitiation =
 		parseInt(form.board) !== board.length || parseInt(form.player) !== players.length;
+
+	useEffect(() => {
+		setForm('board', board.length);
+		setForm('player', players.length);
+	}, [players.length, board.length]);
 
 	return (
 		<div className="flex-cs col mb-12">
