@@ -23,6 +23,10 @@ const CommandLine = () => {
 				cli.current.focus();
 				setFocus(true);
 			}
+			if (focus && e.keyCode === 27) {
+				cli.current.blur();
+				setFocus(false);
+			}
 		};
 		document.addEventListener('keypress', keyPressed);
 		return () => document.removeEventListener('keypress', keyPressed);
