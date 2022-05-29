@@ -8,6 +8,7 @@ export const useGame = (): UseGameType => {
 	const state = useSelector((store: RootState) => store.game);
 	const dispatcher = useAutoDispatcher(actions);
 
+	// INITIATOR
 	const initiatePlayer = (playerSize) => {
 		const ids = Array(playerSize)
 			.fill(null)
@@ -15,7 +16,7 @@ export const useGame = (): UseGameType => {
 		dispatcher.setPlayers(ids);
 	};
 
-	const initiate = (size) => {
+	const initiateMultiThello = (size) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
 		const initialTiles = filterByNoEdge(Array(size).fill(Array(size).fill(true)));
 
@@ -23,7 +24,7 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(initialTiles);
 	};
 
-	const initiateForTwo = (size) => {
+	const initiateOThello = (size) => {
 		const getBoardTemplate = (size) => {
 			const initialBoard = Array(size).fill(Array(size).fill(0));
 			if (size < 4) return initialBoard;
@@ -61,12 +62,7 @@ export const useGame = (): UseGameType => {
 		dispatcher.setTileStatus(updatedTiles);
 	};
 
-	const getNextPlayer = (players: number[], turn: number) => {
-		const currentIndex = players.findIndex((x) => x === turn);
-		const nextIndex = currentIndex + 1 === players.length ? 0 : currentIndex + 1;
-		return players[nextIndex];
-	};
-
+	// BOARD CHIPS VALUES LOGIC
 	const getFlippingChips = (selected: ChipDataType, board: number[][], turn: number) => {
 		const enemyNeighbors = (() => {
 			const xNeighbors = [selected.x - 1, selected.x, selected.x + 1];
@@ -132,6 +128,16 @@ export const useGame = (): UseGameType => {
 			})
 		);
 
+	const getNextPlayer = (players: number[], turn: number) => {
+		const currentIndex = players.findIndex((x) => x === turn);
+		const nextIndex = currentIndex + 1 === players.length ? 0 : currentIndex + 1;
+		return players[nextIndex];
+	};
+
+	// TILES PICKABILITY LOGIC
+	const filterByValue = (tiles, board) =>
+		tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
+
 	const filterByNoEdge = (tiles) => {
 		if (tiles.length < 3) return tiles;
 		return tiles.map((cols, x) =>
@@ -140,9 +146,6 @@ export const useGame = (): UseGameType => {
 			})
 		);
 	};
-
-	const filterByValue = (tiles, board) =>
-		tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
 
 	const filterByNeighborhood = (tiles, board) =>
 		tiles.map((cols, x) =>
@@ -163,9 +166,7 @@ export const useGame = (): UseGameType => {
 						.filter(({ x, y }) => board[x][y] !== 0);
 				};
 
-				const hasOccupiedNeighbors = getOccupiedNeighbors().length > 0;
-
-				return hasOccupiedNeighbors;
+				return getOccupiedNeighbors().length > 0;
 			})
 		);
 
@@ -193,25 +194,23 @@ export const useGame = (): UseGameType => {
 
 	const validateSelection = ({ x, y }) => state.tileStatus[x][y];
 
-	// EXPORTED
+	// EXPORTED HOOK PRODUCT
 	const start = ({ player, board }: StartOptionsType) => {
 		dispatcher.reset();
 		dispatcher.setStatus('initial');
 
 		initiatePlayer(player);
-		if (player === 2) initiateForTwo(board);
-		else initiate(board);
+		if (player === 2) initiateOThello(board);
+		else initiateMultiThello(board);
 	};
 
 	const scores = (() => {
 		const base = [...state.players.map((player) => ({ player, score: 0 }))];
 
-		const result = base.map((item) => ({
+		return base.map((item) => ({
 			...item,
 			score: state.board.flat().filter((v) => v === item.player).length,
 		}));
-
-		return result;
 	})();
 
 	const gameOver = state.board.flat().filter((val) => !val).length === 0;
@@ -219,10 +218,7 @@ export const useGame = (): UseGameType => {
 	const winners = (() => {
 		if (!gameOver) return [];
 		const highestScore = scores.map((data) => data.score).sort((a, b) => b - a)[0];
-		const result = scores
-			.filter((data) => data.score === highestScore)
-			.map((data) => data.player);
-		return result;
+		return scores.filter((data) => data.score === highestScore).map((data) => data.player);
 	})();
 
 	const setSelected = (selected: ChipDataType | null) => {
