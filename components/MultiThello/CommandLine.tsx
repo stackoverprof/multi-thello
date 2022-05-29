@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useCommand from '@core/hooks/useCommand';
 import useForm from '@core/hooks/useForm';
 
 const CommandLine = () => {
+	const [focus, setFocus] = useState(false);
 	const cli = useRef(null);
 
 	const { form, mutateForm, resetForm } = useForm({
@@ -35,13 +36,15 @@ const CommandLine = () => {
 				autoFocus
 				ref={cli}
 				autoComplete="false"
+				onFocus={() => setFocus(true)}
+				onBlur={() => setFocus(false)}
 				type="text"
 				value={form.command}
 				onChange={mutateForm}
 				name="command"
 				className="py-2 pr-3 bg-white bg-opacity-0"
 				id="size"
-				placeholder=""
+				placeholder={focus ? '/start  /new  or  x,y ' : 'press / to focus'}
 			/>
 		</form>
 	);
