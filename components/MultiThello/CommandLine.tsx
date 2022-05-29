@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import useCommand from '@core/hooks/useCommand';
 import useForm from '@core/hooks/useForm';
 
 const CommandLine = () => {
+	const cli = useRef(null);
+
 	const { form, mutateForm, resetForm } = useForm({
 		command: '',
 	});
 
 	const commander = useCommand(form.command, resetForm);
+
+	useEffect(() => {
+		if (cli) cli.current.focus();
+	});
 
 	return (
 		<form
@@ -18,6 +24,7 @@ const CommandLine = () => {
 			<p className="mr-3 ml-4 text-2xl font-bold">{'>'}</p>
 			<input
 				autoFocus
+				ref={cli}
 				autoComplete="false"
 				type="text"
 				value={form.command}
