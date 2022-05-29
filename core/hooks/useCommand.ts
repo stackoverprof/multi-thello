@@ -7,7 +7,9 @@ const useCommand = (value: string, callback: () => void) => {
 		e.preventDefault();
 		const command = value.trim();
 
-		if (command.length > 2 && /^[1-8](,[1-8])*$/.test(command.replace(/\s/g, ''))) {
+		if (command.length > 2 && /^[0-9](,[0-9])*$/.test(command.replace(/\s/g, ''))) {
+			console.log(command);
+
 			const splitted = command.replace(/\s/g, '').split(',');
 			if (splitted.length === 2) {
 				const selected = { x: parseInt(splitted[0]), y: parseInt(splitted[1]) };
