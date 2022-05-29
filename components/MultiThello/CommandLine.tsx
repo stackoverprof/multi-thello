@@ -13,7 +13,7 @@ const CommandLine = () => {
 
 	useEffect(() => {
 		if (cli) cli.current.focus();
-	});
+	}, []);
 
 	return (
 		<form
