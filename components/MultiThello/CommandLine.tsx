@@ -52,7 +52,7 @@ const CommandLine = () => {
 				className="py-2 pr-3 w-full bg-white bg-opacity-0"
 				id="size"
 				placeholder={
-					focus ? '/start  /new [board] [player]  or  [x], [y]' : 'press / to focus'
+					focus ? '/start  /new [board] [player]  or  [x] , [y]' : 'press / to focus'
 				}
 			/>
 		</form>

@@ -6,15 +6,15 @@ import { useGame } from '@core/redux/selectors/game';
 const ConfigForm = () => {
 	const { form, mutateForm, setForm } = useForm({
 		board: '8',
-		player: '4',
+		players: '4',
 	});
 
 	const { start, turn, winners, board, players, status, setStatus } = useGame();
 
 	const reInitiate = () => {
 		start({
-			player: parseInt(form.player),
 			board: parseInt(form.board),
+			players: parseInt(form.players),
 		});
 	};
 
@@ -31,7 +31,7 @@ const ConfigForm = () => {
 	}, []);
 
 	const needReinitiation =
-		parseInt(form.board) !== board.length || parseInt(form.player) !== players.length;
+		parseInt(form.board) !== board.length || parseInt(form.players) !== players.length;
 
 	useEffect(() => {
 		setForm('board', board.length);
@@ -67,9 +67,9 @@ const ConfigForm = () => {
 				</label>
 				<input
 					type="text"
-					value={form.player}
+					value={form.players}
 					onChange={mutateForm}
-					name="player"
+					name="players"
 					className="px-3 py-2 bg-white bg-opacity-0 rounded-md border w-54"
 					id="size"
 					placeholder=""

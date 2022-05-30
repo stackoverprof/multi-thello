@@ -20,12 +20,12 @@ const useCommand = (value: string, callback: () => void) => {
 			if (/^\d+$/.test(config[1]) && /^\d+$/.test(config[2])) {
 				start({
 					board: parseInt(config[1]),
-					player: parseInt(config[2]),
+					players: parseInt(config[2]),
 				});
 			} else if (config.length === 1) {
 				start({
 					board: board.length,
-					player: players.length,
+					players: players.length,
 				});
 			}
 		} else if (command.split(' ')[0] === '/start') {

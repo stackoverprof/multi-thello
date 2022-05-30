@@ -18,17 +18,17 @@ export interface GameActionsType {
 }
 
 export interface UseGameType extends GameStateType, GameActionsType {
-	start(config: { player: number; board: number }): void;
+	start(config: StartOptionsType): void;
 	scores: { player: number; score: number }[];
 	gameOver: boolean;
-	winners: number[];
+	winners: PlayersType;
 	handleSelect(selected: ChipDataType | null): void;
 }
 
 export type ChipDataType = { x: number; y: number; value?: number };
 
 export interface StartOptionsType {
-	player: number;
+	players: number;
 	board: number;
 }
 

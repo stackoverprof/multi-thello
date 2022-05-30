@@ -1,30 +1,37 @@
 import { actions } from '../reducers/game';
-import { ChipDataType, StartOptionsType, UseGameType } from '@core/@types/gameRedux';
 import { RootState } from '../store';
 import { useAutoDispatcher } from '../root';
 import { useSelector } from 'react-redux';
+import {
+	BoardType,
+	ChipDataType,
+	PlayersType,
+	StartOptionsType,
+	TileStatusType,
+	UseGameType,
+} from '@core/@types/gameRedux';
 
 export const useGame = (): UseGameType => {
 	const state = useSelector((store: RootState) => store.game);
 	const dispatcher = useAutoDispatcher(actions);
 
 	// INITIATOR
-	const initiatePlayer = (playerSize) => {
-		const ids = Array(playerSize)
+	const initiatePlayer = (size: number) => {
+		const ids = Array(size)
 			.fill(null)
 			.map((_, i) => i + 1);
 		dispatcher.setPlayers(ids);
 	};
 
-	const initiateMultiThello = (size) => {
+	const initiateMultiThello = (size: number) => {
 		const initialBoard = Array(size).fill(Array(size).fill(0));
-		const initialTiles = filterByNoEdge(Array(size).fill(Array(size).fill(true)));
+		const initialTiles = filterTiles.byNoEdge(Array(size).fill(Array(size).fill(true)));
 
 		dispatcher.setBoard(initialBoard);
 		dispatcher.setTileStatus(initialTiles);
 	};
 
-	const initiateOThello = (size) => {
+	const initiateOThello = (size: number) => {
 		const getBoardTemplate = (size) => {
 			const initialBoard = Array(size).fill(Array(size).fill(0));
 			if (size < 4) return initialBoard;
@@ -63,7 +70,7 @@ export const useGame = (): UseGameType => {
 	};
 
 	// BOARD CHIPS VALUES LOGIC
-	const getFlippingChips = (selected: ChipDataType, board: number[][], turn: number) => {
+	const getFlippingChips = (selected: ChipDataType, board: BoardType, turn: number) => {
 		const enemyNeighbors = (() => {
 			const xNeighbors = [selected.x - 1, selected.x, selected.x + 1];
 			const yNeighbors = [selected.y - 1, selected.y, selected.y + 1];
@@ -119,7 +126,7 @@ export const useGame = (): UseGameType => {
 		return flippingChipsCombined;
 	};
 
-	const rewriteBoard = (gained: ChipDataType[], board: number[][]) =>
+	const rewriteBoard = (gained: ChipDataType[], board: BoardType) =>
 		board.map((cols, i) =>
 			cols.map((val, j) => {
 				const found = gained.find(({ x, y }) => x === i && y === j);
@@ -128,79 +135,79 @@ export const useGame = (): UseGameType => {
 			})
 		);
 
-	const getNextPlayer = (players: number[], turn: number) => {
+	const getNextPlayer = (players: PlayersType, turn: number) => {
 		const currentIndex = players.findIndex((x) => x === turn);
 		const nextIndex = currentIndex + 1 === players.length ? 0 : currentIndex + 1;
 		return players[nextIndex];
 	};
 
 	// TILES PICKABILITY LOGIC
-	const filterByValue = (tiles, board) =>
-		tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
+	const filterTiles = {
+		byValue(tiles, board) {
+			return tiles.map((cols, x) => cols.map((_, y) => board[x][y] === 0));
+		},
+		byNoEdge(tiles) {
+			if (tiles.length < 3) return tiles;
+			return tiles.map((cols, x) =>
+				cols.map((_, y) => {
+					return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
+				})
+			);
+		},
+		byNeighborhood(tiles, board) {
+			return tiles.map((cols, x) =>
+				cols.map((_, y) => {
+					const current = { x, y };
+					if (board[current.x][current.y]) return false;
 
-	const filterByNoEdge = (tiles) => {
-		if (tiles.length < 3) return tiles;
-		return tiles.map((cols, x) =>
-			cols.map((_, y) => {
-				return x > 0 && x < tiles.length - 1 && y > 0 && y < tiles.length - 1;
-			})
-		);
+					const getOccupiedNeighbors = () => {
+						const xNeighbors = [current.x - 1, current.x, current.x + 1];
+						const yNeighbors = [current.y - 1, current.y, current.y + 1];
+						const neighbors = xNeighbors.map((x) => yNeighbors.map((y) => ({ x, y })));
+
+						return neighbors
+							.flat()
+							.filter(({ x, y }) => x >= 0 && y >= 0)
+							.filter(({ x, y }) => x < board.length && y < board.length)
+							.filter(({ x, y }) => x !== current.x || y !== current.y)
+							.filter(({ x, y }) => board[x][y] !== 0);
+					};
+
+					return getOccupiedNeighbors().length > 0;
+				})
+			);
+		},
+		byFlippingPossibility(tiles, board, turn) {
+			return tiles.map((cols, x) =>
+				cols.map((val, y) => {
+					if (!val) return false;
+					const checkFlippingPossibility = (selected) => {
+						const flippable = getFlippingChips(selected, board, turn);
+						return flippable.length > 0;
+					};
+					return checkFlippingPossibility({ x, y });
+				})
+			);
+		},
 	};
 
-	const filterByNeighborhood = (tiles, board) =>
-		tiles.map((cols, x) =>
-			cols.map((_, y) => {
-				const current = { x, y };
-				if (board[current.x][current.y]) return false;
-
-				const getOccupiedNeighbors = () => {
-					const xNeighbors = [current.x - 1, current.x, current.x + 1];
-					const yNeighbors = [current.y - 1, current.y, current.y + 1];
-					const neighbors = xNeighbors.map((x) => yNeighbors.map((y) => ({ x, y })));
-
-					return neighbors
-						.flat()
-						.filter(({ x, y }) => x >= 0 && y >= 0)
-						.filter(({ x, y }) => x < board.length && y < board.length)
-						.filter(({ x, y }) => x !== current.x || y !== current.y)
-						.filter(({ x, y }) => board[x][y] !== 0);
-				};
-
-				return getOccupiedNeighbors().length > 0;
-			})
-		);
-
-	const filterByFlippingPossibility = (tiles, board, turn) =>
-		tiles.map((cols, x) =>
-			cols.map((val, y) => {
-				if (!val) return false;
-				const checkFlippingPossibility = (selected) => {
-					const flippable = getFlippingChips(selected, board, turn);
-					return flippable.length > 0;
-				};
-				return checkFlippingPossibility({ x, y });
-			})
-		);
-
-	const getTilesUpdate = (prev: boolean[][], board: number[][], turn: number) => {
-		const step1 = filterByValue(prev, board);
-		if (step1.flat().filter((val) => !val).length === 0) return filterByNoEdge(step1);
-		const step2 = filterByNeighborhood(step1, board);
+	const getTilesUpdate = (prev: TileStatusType, board: BoardType, turn: number) => {
+		const step1 = filterTiles.byValue(prev, board);
+		if (step1.flat().filter((val) => !val).length === 0) return filterTiles.byNoEdge(step1);
+		const step2 = filterTiles.byNeighborhood(step1, board);
 		if (step2.flat().filter((val) => val).length === 0) return step1;
-		const step3 = filterByFlippingPossibility(step2, board, turn);
+		const step3 = filterTiles.byFlippingPossibility(step2, board, turn);
 		if (step3.flat().filter((val) => val).length === 0) return step2;
 		return step3;
 	};
 
-	const validateSelection = ({ x, y }) => state.tileStatus[x][y];
-
 	// EXPORTED HOOK PRODUCT
-	const start = ({ player, board }: StartOptionsType) => {
+	const start = ({ players, board }: StartOptionsType) => {
 		dispatcher.reset();
 		dispatcher.setStatus('initial');
 
-		initiatePlayer(player);
-		if (player === 2) initiateOThello(board);
+		initiatePlayer(players);
+		if (players === 2) initiateOThello(board);
 		else initiateMultiThello(board);
 	};
 
@@ -224,7 +231,7 @@ export const useGame = (): UseGameType => {
 	const setSelected = (selected: ChipDataType | null) => {
 		if (selected === null) {
 			dispatcher.setSelected(null);
-		} else if (validateSelection(selected)) {
+		} else if (state.tileStatus[selected.x][selected.y]) {
 			dispatcher.setSelected(selected);
 		}
 	};
