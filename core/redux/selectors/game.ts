@@ -61,9 +61,9 @@ export const useGame = (): UseGameType => {
 			}
 		};
 
-		const boardTemplate = getBoardTemplate(size);
 		const template = Array(size).fill(Array(size).fill(false));
-		const updatedTiles = getTilesUpdate(template, boardTemplate, state.turn);
+		const boardTemplate = getBoardTemplate(size);
+		const updatedTiles = getTilesUpdate(template, boardTemplate, 1);
 
 		dispatcher.setBoard(boardTemplate);
 		dispatcher.setTileStatus(updatedTiles);
