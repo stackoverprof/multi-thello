@@ -237,12 +237,12 @@ export const useGame = (): UseGameType => {
 		}
 	};
 
-	const handleSelect = (selected: ChipDataType | null) => {
+	const executeSelection = () => {
 		const updatedTurn = getNextPlayer(state.players, state.turn);
 		dispatcher.setTurn(updatedTurn);
 
-		const gained = selected
-			? [...getFlippingChips(selected, state.board, state.turn), selected]
+		const gained = state.selected
+			? [...getFlippingChips(state.selected, state.board, state.turn), state.selected]
 			: [];
 		const valued = gained.map((tile) => ({ ...tile, value: state.turn }));
 		const updatedBoard = getBoardUpdate(valued, state.board);
@@ -250,6 +250,7 @@ export const useGame = (): UseGameType => {
 
 		dispatcher.setTileStatus(updatedTiles);
 		dispatcher.setBoard(updatedBoard);
+		dispatcher.setSelected(null);
 	};
 
 	return {
@@ -260,6 +261,6 @@ export const useGame = (): UseGameType => {
 		gameOver,
 		winners,
 		setSelected,
-		handleSelect,
+		executeSelection,
 	};
 };

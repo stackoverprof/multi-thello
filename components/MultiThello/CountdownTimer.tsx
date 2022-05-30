@@ -7,13 +7,7 @@ const INTERVAL = 30000;
 
 const CountdownTimer = () => {
 	const [time, countdown] = useCountDown(INTERVAL);
-	const { selected, setSelected, status, turn, winners, gameOver, handleSelect } = useGame();
-
-	const executeSelection = () => {
-		handleSelect(selected || null);
-		setSelected(null);
-		countdown.start();
-	};
+	const { selected, status, turn, winners, gameOver, executeSelection } = useGame();
 
 	useEffect(() => {
 		if (status === 'initial') countdown.pause();
@@ -25,7 +19,10 @@ const CountdownTimer = () => {
 	}, [turn]);
 
 	useEffect(() => {
-		if (status === 'playing' && (time === 0 || selected)) executeSelection();
+		if (status === 'playing' && (time === 0 || selected)) {
+			executeSelection();
+			countdown.start();
+		}
 	}, [time, selected]);
 
 	useEffect(() => {
