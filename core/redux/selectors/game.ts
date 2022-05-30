@@ -46,7 +46,7 @@ export const useGame = (): UseGameType => {
 					{ x: median, y: b, value: 2 },
 					{ x: median, y: a, value: 2 },
 				];
-				return rewriteBoard(valued, initialBoard);
+				return getBoardUpdate(valued, initialBoard);
 			} else {
 				const median = (size - 1) / 2;
 				const a = median - 0.5;
@@ -57,7 +57,7 @@ export const useGame = (): UseGameType => {
 					{ x: a, y: b, value: 2 },
 					{ x: b, y: a, value: 2 },
 				];
-				return rewriteBoard(valued, initialBoard);
+				return getBoardUpdate(valued, initialBoard);
 			}
 		};
 
@@ -176,7 +176,7 @@ export const useGame = (): UseGameType => {
 		return flippingChipsCombined;
 	};
 
-	const rewriteBoard = (gained: ChipDataType[], board: BoardType) => {
+	const getBoardUpdate = (gained: ChipDataType[], board: BoardType) => {
 		return board.map((cols, i) =>
 			cols.map((val, j) => {
 				const found = gained.find(({ x, y }) => x === i && y === j);
@@ -245,7 +245,7 @@ export const useGame = (): UseGameType => {
 			? [...getFlippingChips(selected, state.board, state.turn), selected]
 			: [];
 		const valued = gained.map((tile) => ({ ...tile, value: state.turn }));
-		const updatedBoard = rewriteBoard(valued, state.board);
+		const updatedBoard = getBoardUpdate(valued, state.board);
 		const updatedTiles = getTilesUpdate(state.tileStatus, updatedBoard, updatedTurn);
 
 		dispatcher.setTileStatus(updatedTiles);
