@@ -11,7 +11,6 @@ const Play = () => {
 
 	return (
 		<MainLayout
-			title="Play"
 			className="flex-cc overflow-hidden py-8 transition duration-500"
 			style={{
 				backgroundColor: `${
