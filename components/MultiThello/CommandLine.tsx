@@ -14,7 +14,7 @@ const CommandLine = () => {
 
 	useEffect(() => {
 		if (cli) cli.current.focus();
-	}, []);
+	}, [cli]);
 
 	useEffect(() => {
 		const keyPressed = (e) => {
