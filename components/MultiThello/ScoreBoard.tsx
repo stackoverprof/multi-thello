@@ -37,7 +37,7 @@ const ScoreBoard = () => {
 					.sort((a, b) => b.score - a.score)
 					.map((data, i) => (
 						<div
-							className="flex-sc my-1 w-24 text-xl font-semibold"
+							className="flex-sc my-1 w-32 text-xl font-semibold"
 							style={{
 								color: getColor(data.player),
 							}}
