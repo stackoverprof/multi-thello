@@ -4,7 +4,7 @@ const api = axios.create();
 
 api.defaults.baseURL = process.env.API_BASE_URL || '/api/';
 
-// Request interceptor for API calls
+// API CALL INTERCEPTOR
 api.interceptors.request.use(
 	async (config) => {
 		return { ...config };
