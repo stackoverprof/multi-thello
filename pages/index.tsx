@@ -10,14 +10,14 @@ import { useGame } from '@core/redux/selectors/game';
 const Play = () => {
 	const { turn, winners } = useGame();
 
+	const getBackgroundColor = () => {
+		return `${winners.length > 1 ? '#ffffff' : getColor(winners[0] || turn)}4A`;
+	};
+
 	return (
 		<MainLayout
 			className="flex-cc overflow-hidden py-8 transition duration-500"
-			style={{
-				backgroundColor: `${
-					winners.length > 1 ? '#ffffff' : getColor(winners[0] || turn)
-				}4A`,
-			}}
+			style={{ backgroundColor: getBackgroundColor() }}
 		>
 			<ConfigForm />
 			<div className="flex-cc col">
