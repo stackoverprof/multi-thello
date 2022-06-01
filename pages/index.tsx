@@ -7,7 +7,7 @@ import ScoreBoard from '@components/MultiThello/ScoreBoard';
 import { getColor } from '@core/utils/getColor';
 import { useGame } from '@core/redux/selectors/game';
 
-const Play = () => {
+const Home = () => {
 	const { turn, winners } = useGame();
 
 	const getBackgroundColor = () => {
@@ -29,4 +29,4 @@ const Play = () => {
 	);
 };
 
-export default Play;
+export default Home;

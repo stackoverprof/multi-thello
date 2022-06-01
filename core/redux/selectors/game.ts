@@ -129,7 +129,7 @@ export const useGame = (): UseGameType => {
 				.flat()
 				.filter(({ x, y }) => x >= 0 && y >= 0)
 				.filter(({ x, y }) => x < board.length && y < board.length)
-				.filter(({ x: _x, y: _y }) => _x !== selected.x || _y !== selected.y)
+				.filter(({ x, y }) => x !== selected.x || y !== selected.y)
 				.filter(({ x, y }) => board[x][y] !== 0)
 				.map(({ x, y }) => ({ x, y, value: board[x][y] }))
 				.filter(({ value }) => value !== turn);
