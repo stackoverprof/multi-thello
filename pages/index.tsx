@@ -19,7 +19,7 @@ const Home = () => {
 
 	useEffect(() => {
 		start({ board: DEFAULT_BOARD, players: DEFAULT_PLAYERS });
-	});
+	}, []);
 
 	return (
 		<MainLayout
