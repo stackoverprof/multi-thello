@@ -5,13 +5,13 @@ import { useGame } from '@core/redux/selectors/game';
 
 const ConfigForm = () => {
 	const { form, mutateForm, setForm } = useForm({
-		board: '8',
-		players: '4',
+		board: '0',
+		players: '0',
 	});
 
 	const { start, turn, winners, board, players, status, setStatus } = useGame();
 
-	const reInitiate = () => {
+	const newGame = () => {
 		start({
 			board: parseInt(form.board),
 			players: parseInt(form.players),
@@ -22,21 +22,16 @@ const ConfigForm = () => {
 		setStatus('playing');
 	};
 
-	useEffect(() => {
-		reInitiate();
-	}, []);
-
-	useEffect(() => {
-		reInitiate();
-	}, []);
-
 	const needReinitiation =
 		parseInt(form.board) !== board.length || parseInt(form.players) !== players.length;
 
 	useEffect(() => {
 		setForm('board', board.length);
-		setForm('player', players.length);
-	}, [players.length, board.length]);
+	}, [board.length]);
+
+	useEffect(() => {
+		setForm('players', players.length);
+	}, [players.length]);
 
 	return (
 		<div className="flex-cs col mb-12">
@@ -90,7 +85,7 @@ const ConfigForm = () => {
 				</button>
 			) : (
 				<button
-					onClick={reInitiate}
+					onClick={newGame}
 					className="flex-cc px-4 my-6 h-11 text-lg font-semibold rounded-md border hover:bg-white hover:bg-opacity-10"
 					style={{
 						borderColor: winners.length > 1 ? 'white' : getColor(winners[0] || turn),
