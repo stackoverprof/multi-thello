@@ -39,7 +39,10 @@ const ConfigForm = () => {
 				className="z-10 mt-16 mb-8 text-4xl font-bold text-center "
 				style={{ color: winners.length > 1 ? 'white' : getColor(winners[0] || turn) }}
 			>
-				{players.length === 1 ? 'Thello' : players.length === 2 ? 'OThello' : 'MultiThello'}
+				{players.length > 2 && 'MultiThello'}
+				{players.length === 2 && 'OThello'}
+				{players.length === 1 && 'Find a friend, please'}
+				{players.length === 0 && 'Really?'}
 			</h1>
 			<div className="flex-ss col my-2">
 				<label htmlFor="size" className="flex-cc gap-1 mb-2">
